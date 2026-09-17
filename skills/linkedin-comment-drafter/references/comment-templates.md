@@ -154,10 +154,28 @@ curious if you've seen [specific case].
 - Emoji-only replies
 - Tagging a third party to farm reach
 - Any comment mentioning your own product by name on a third-party post
-- Em dashes (`—`), rule-of-three lists, "it's not X, it's Y"
-- Comments over 500 chars unless answering a direct question with depth
+- Rule-of-three lists, "it's not X, it's Y"
+- Em dashes beyond the cap: about 1 per 100 words, which on a 200-350 char comment means 0-1 total (root `references/voice-rules.md` rule 1). Not a blanket ban — one is fine when the sentence earns it
+- Comments over 500 chars, even when answering a direct question with depth — 500 is the hard ceiling, not a soft target (see Length & Weight Rules below)
 
 ## Reaction type heuristics
+
+**Pick the reaction from what the post itself is about first.** These four
+override the per-template default whenever they apply, regardless of which
+comment template you picked for the reply body:
+
+| The post is about... | Reaction |
+|---|---|
+| An achievement, milestone, launch, funding, promotion, work anniversary | `PRAISE` |
+| A hardship, layoff, failure, loss, or a hard personal moment | `EMPATHY` |
+| Something genuinely funny or lighthearted | `ENTERTAINMENT` |
+| None of the above, and the comment itself carries no strong stance (a plain factual observation, a neutral update) | `LIKE` |
+
+Example: a T5 Counter-with-Concession comment on a post about someone's
+layoff should react `EMPATHY`, not T5's own default `INTEREST` below — the
+post's tone wins.
+
+When none of the four apply, fall back to the per-template default:
 
 | Template | Default reaction |
 |---|---|
@@ -168,8 +186,13 @@ curious if you've seen [specific case].
 | T5 Counter-with-Concession | `INTEREST` (never `LIKE` — reads passive) |
 | T6 Quotable-Reframe | `APPRECIATION` |
 | T7 Ask-a-Sharper-Question | `INTEREST` |
+| SALES-T1 Account Engagement Warmup | `APPRECIATION` (reinforcing their point, not analyzing it) |
+| SALES-T2 Expertise-Building Comment | `INTEREST` |
 
-React before commenting, pause 8-15s, then comment. Spacing makes the interaction look human.
+React before commenting, with a short pause between the two calls. This is
+rate-limiting against the platform's API, not an attempt to look more human
+than the account already is — space calls out the same way you would for any
+API you don't want to hammer.
 
 ---
 
@@ -192,7 +215,14 @@ All four elements together trigger the "in-depth comment" algorithmic signal:
 
 > The point about dwell time hit me - I tested this last month by adding 3 line breaks every 2 sentences. Impressions went from ~800 to 2,400 on two consecutive posts. One thing I'm still figuring out: does this work the same way for carousels?
 
-## Sales-oriented templates (new)
+## Sales-oriented templates
+
+Only offer these when the user says the post's author is a **target-account
+prospect** — someone at a company they're doing account-based outreach
+toward, engaging before a cold call or intro email rather than commenting for
+organic reach. The skill has no way to infer this from the URL alone; ask
+once if the framing is ambiguous ("is this someone you're prospecting, or
+organic engagement?"). Default to T1-T7 above when the answer is organic.
 
 ### SALES-T1 — Account Engagement Warmup
 

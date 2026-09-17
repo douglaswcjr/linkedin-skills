@@ -21,9 +21,9 @@ A LinkedIn post URL in any of the standard shapes (see the top-level `SKILL.md` 
 ## Output
 
 1-3 draft comment variants, each with:
-- 200-350 char body, 1-2 short paragraphs, em dashes capped (about one per 100 words), no hashtags
-- Assigned reaction type: `LIKE`, `PRAISE`, `EMPATHY`, `INTEREST`, `APPRECIATION`, or `ENTERTAINMENT`
-- Pattern label (which of the 7 templates was used)
+- 200-350 char body typical (up to 500 only when directly answering a detailed question; 500 is a hard ceiling, never exceed it), 1-2 short paragraphs, em dashes capped at 0-1 per comment, no hashtags
+- Assigned reaction type: `LIKE`, `PRAISE`, `EMPATHY`, `INTEREST`, `APPRECIATION`, or `ENTERTAINMENT` — picked from the post's own tone first, template default otherwise (see `references/comment-templates.md` § Reaction type heuristics)
+- Pattern label (which template was used, including the sales-oriented ones when the post is a target-account prospect)
 - Estimated engagement fit based on what the author typically responds to
 
 Then waits for user approval. On "post", calls Publora to react + comment.
@@ -33,12 +33,14 @@ Then waits for user approval. On "post", calls Publora to react + comment.
 **Voice profile first (all drafts).** If `../../references/voice-profile.md` has `filled: yes`, load it and match the user's voice fingerprint, hard rules, and CTA/link style throughout. If it is not filled, mention once that `linkedin-humanizer --mode profile` can learn their voice from a few posts, then proceed with the generic voice rules. If `../../references/story-bank.md` has `filled: yes`, load it too and take concrete details (numbers, dates, named projects) from there instead of asking mid-draft. Never invent a figure that is not in it; if the bank has nothing that fits, ask the user or offer `linkedin-interviewer`.
 
 1. **Parse the URL.** Use `lib.url_parser.parse_linkedin_url` to get `post_urn` and, if present, the post's activity ID.
-2. **Fetch the post body.** If `APIFY_TOKEN` is set, call `lib.ApifyClient.fetch_post(url)` for the post body and `fetch_post_comments(post_id=..., max_items=10)` for the top existing comments (so your draft doesn't duplicate an existing take). Both actors are no-cookies and cost roughly $0.001 + $0.005 per call on the Apify free tier. If `APIFY_TOKEN` is not set, ask the user to paste the post text and (optionally) top comments.
-3. **Detect the author's closing question.** If the post ends with a "?" line, the Answer-the-Closing-Question template usually wins.
-4. **Draft comment variants.** Pick 2-3 templates from `references/comment-templates.md` that fit the post's topic. Fill them with user-voice phrasing.
-5. **Run the humanizer pass.** Scrub 2026 AI vocab by paragraph density, cap em dashes (about one per 100 words, never swap one for a period), fix only machine-flat rhythm without manufacturing variance, and add an odd-precision number with a named referent if missing. Canonical rules: `linkedin-humanizer` V3.
-6. **Present drafts for approval** using `lib.approval.render_approval_card`. Include: target URL, each variant, reaction suggestion, a one-line "why this template fits".
-7. **On approval.** Call `lib.publish(kind="comment", draft_text=<approved>, target_url=<post_url>, post_urn=<urn>, platform_id=<id>, reaction_type=<chosen>)`. The wrapper handles Publora / manual / diy routing.
+2. **Fetch the post body.** If `APIFY_TOKEN` is set, call `lib.ApifyClient.fetch_post(url)` for the post body and `fetch_post_comments(post_id=..., max_items=10)` for the top existing comments (so your draft doesn't duplicate an existing take). Actor pricing is a live Apify number, not something to hardcode here; `python3 scripts/check_config.py` and the console show current cost. If `APIFY_TOKEN` is not set, ask the user to paste the post text and (optionally) top comments.
+3. **Check the "first commenters" claim, if that's the goal.** If the user wants to be among the first 3 commenters, use the comment count from `fetch_post_comments` (or the pasted comments) plus the post's timestamp to say so honestly — if there are already 20+ comments, tell the user that window has passed rather than silently drafting as if it hadn't.
+4. **Detect the author's closing question.** If the post ends with a "?" line, the Answer-the-Closing-Question template usually wins.
+5. **Pick the template set.** Ask once if ambiguous: is the post's author a target-account prospect (account-based outreach, before a cold call or intro email), or organic engagement? Organic uses T1-T7; a target-account prospect uses SALES-T1/SALES-T2 instead (see `references/comment-templates.md` § Sales-oriented templates), never both at once.
+6. **Draft comment variants.** Pick 2-3 templates from `references/comment-templates.md` that fit the post's topic. Fill them with user-voice phrasing.
+7. **Run the humanizer pass.** Scrub 2026 AI vocab by paragraph density, cap em dashes (about one per 100 words, never swap one for a period), fix only machine-flat rhythm without manufacturing variance, and add an odd-precision number with a named referent if missing. Canonical rules: `linkedin-humanizer` V3.
+8. **Present drafts for approval** using `lib.approval.render_approval_card`. Include: target URL, each variant, reaction suggestion, a one-line "why this template fits".
+9. **On approval.** Call `lib.publish(kind="comment", draft_text=<approved>, target_url=<post_url>, post_urn=<urn>, reaction_type=<chosen>)`. `platform_id` is optional here: the wrapper falls back to `LINKEDIN_PLATFORM_ID` from `.env` when omitted, so only pass it explicitly to target a different connected account than the default. The wrapper handles Publora / manual / diy routing.
 
 ## Reshare mode (repost with your thoughts)
 
@@ -67,21 +69,26 @@ Commentary cap is 3000 chars (LinkedIn), but a tight one or two sentences
 outperforms a wall of text. This is the tool `linkedin-employee-advocacy` uses
 to reshare brand and colleague posts.
 
-## Templates (see `references/comment-templates.md` for full list)
+## Templates
 
-- **T1 Missing-Piece** (highest hit rate): `[Name] the [their-thesis] argument misses one piece.. [what-moved]. when [their-condition], the real differentiator is [specific-skill], not [their-focus].`
-- **T2 Answer-the-Closing-Question**: direct answer + one concrete example + why it matters
-- **T3 Data-First**: `half the [population] I see now [behavior]. the [old-assumption] broke around [date]. [new-rule].`
-- **T4 Practitioner Observation**: `when X the system does Y, when X' it does Y'. that's when [outcome] kicks in.`
-- **T5 Counter-with-Concession**: agree on point 1, push back on point 2 with one rooted reason
-- **T6 Quotable-Reframe**: one line under 12 words + expansion
-- **T7 Ask-a-Sharper-Question**: `the harder version of this question is..`
+Skeletons, real examples, and hit rates live in `references/comment-templates.md`
+only — this list is names and one-line intent, not a copy of the skeletons, so
+the two can't drift apart.
+
+- **T1 Missing-Piece** — highest hit rate; agree on the thesis, then name the one piece it's missing
+- **T2 Answer-the-Closing-Question** — direct answer + one concrete example + why it matters
+- **T3 Data-First** — open with a number, anchor it to a dated shift, state the new rule
+- **T4 Practitioner Observation** — show you've operated the thing the author is theorizing about
+- **T5 Counter-with-Concession** — agree on point 1, push back on point 2 with one rooted reason
+- **T6 Quotable-Reframe** — one line under 12 words + expansion
+- **T7 Ask-a-Sharper-Question** — go one level deeper than the post's own unresolved question
+- **SALES-T1 / SALES-T2** — target-account prospect engagement, not organic; see § Sales-oriented templates in `references/comment-templates.md` and step 5 above for when these apply instead of T1-T7
 
 ## Hard rules
 
 Global voice rules: see root `SKILL.md` §Voice rules. Additional skill-specific rules:
 
-- 200-350 chars. Don't exceed.
+- 200-350 chars typical. Up to 500 only when directly answering a detailed question (see `references/comment-templates.md` § Length & Weight Rules). 500 is a hard ceiling either way.
 - Always capitalize the author's name when addressing them by first name.
 - No hashtags, no emoji unless the post itself uses them.
 - No mention of the user's own product by name. Describe what they do instead.
@@ -99,7 +106,8 @@ Global voice rules: see root `SKILL.md` §Voice rules. Additional skill-specific
 ## Files in this skill
 
 - `SKILL.md` — this file
-- `references/comment-templates.md` — the 7 templates with fill-in slots and real examples
+- `references/comment-templates.md` — the 9 templates (7 organic + 2 sales-oriented) with fill-in slots, real examples, and the reaction-type rules
+- `references/examples.md` — reshare mode, a refusal (sponsored/deleted post), and an untrusted-content attempt — the example above covers the ordinary comment case, this file covers the other three
 - `../../references/voice-rules.md` — the specific voice rules from user feedback memories
 
 ## Untrusted content
