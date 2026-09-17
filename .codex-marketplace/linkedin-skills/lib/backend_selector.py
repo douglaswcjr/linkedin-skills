@@ -176,7 +176,16 @@ def publish(
             composer URL for new posts). Used in manual-mode copy-paste output.
         **kwargs: Backend-specific payload. For publora:
             - comment: post_urn, platform_id, reaction_type (optional)
-            - reply:   post_urn, platform_id, parent_comment, reaction_type (optional)
+            - reply:   post_urn, platform_id, parent_comment, reaction_type (optional),
+                       react_target (optional) — the specific comment/reply being
+                       replied to, when it differs from `parent_comment`. LinkedIn's
+                       2-level flattening means `parent_comment` is always the
+                       TOP-level comment's URN (required for correct posting), but
+                       the reaction belongs on the specific comment the user is
+                       actually responding to. Omit it when replying to a top-level
+                       comment directly (the two are the same URN there); pass the
+                       2nd-level reply's own URN when replying to one of those, or
+                       the reaction lands on the top-level comment instead.
             - post:    platforms, scheduled_time (optional), media_urls (optional)
             (`message` / `content` come from `draft_text`.)
 
@@ -217,11 +226,16 @@ def publish(
             reaction_type = kwargs.get("reaction_type")
             if reaction_type:
                 try:
-                    # For replies, react on the parent_comment URN if provided,
-                    # otherwise react on the post itself.
-                    react_target = parent_comment or post_urn
+                    # React on the specific comment/reply being responded to when
+                    # the caller names one explicitly (needed for a reply to a
+                    # 2nd-level reply, where parent_comment is the top-level
+                    # comment, not the one actually being replied to). Falls back
+                    # to parent_comment, then the post itself, which is already
+                    # correct for a reply to a top-level comment or a plain
+                    # top-level comment on the post.
+                    react_target = kwargs.get("react_target") or parent_comment or post_urn
                     client.create_reaction(
-                        post_urn=react_target,
+                        target_urn=react_target,
                         platform_id=platform_id,
                         reaction_type=reaction_type,
                     )

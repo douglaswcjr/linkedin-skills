@@ -156,15 +156,19 @@ class PubloraClient:
     def create_reaction(
         self,
         *,
-        post_urn: str,
+        target_urn: str,
         platform_id: str,
         reaction_type: str = "LIKE",
     ) -> dict[str, Any]:
+        """React to a post or a comment/reply. `target_urn` is whichever of the
+        two you're reacting to — Publora's own field name is `postedId`
+        regardless, but the value is not always a post's URN, so this wrapper
+        names the parameter for what it actually holds."""
         rtype = self.REACTION_ALIASES.get(reaction_type.upper(), reaction_type.upper())
         return self._post(
             "/linkedin-reactions",
             {
-                "postedId": post_urn,
+                "postedId": target_urn,
                 "platformId": platform_id,
                 "reactionType": rtype,
             },

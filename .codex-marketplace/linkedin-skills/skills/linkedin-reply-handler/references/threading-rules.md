@@ -38,18 +38,32 @@ Wrong parentComment URN causes one of these:
 
 ## Deriving the TOP-level comment URN
 
-When given a 2nd-level reply's URN, fetch the post's comment tree and walk up:
+This is a two-step pipeline, not two competing ways to do the same thing:
 
-```python
-def find_top_comment_urn(post_urn: str, comment_id: str, post_comments: list) -> str:
-    for top in post_comments:  # each element is a top-level comment dict
-        if top["id"] == comment_id:
-            return f"urn:li:comment:({post_urn},{comment_id})"
-        for reply in top.get("replies", []):
-            if reply["id"] == comment_id:
-                return f"urn:li:comment:({post_urn},{top['id']})"
-    raise ValueError("Comment not found in tree")
-```
+1. **Find which id is top-level.** When given a 2nd-level reply's id, walk the
+   fetched comment tree to find which top-level comment it sits under. The
+   function below is illustrative pseudocode for that walk — it does not exist
+   in `lib/`, it just shows the logic this skill's steps describe in prose
+   (SKILL.md carries `top_level_comment_id` through the reply queue for this
+   exact reason, so the walk only has to happen once per comment, not once per
+   draft):
+
+   ```python
+   def find_top_comment_urn(post_urn: str, comment_id: str, post_comments: list) -> str:
+       for top in post_comments:  # each element is a top-level comment dict
+           if top["id"] == comment_id:
+               return f"urn:li:comment:({post_urn},{comment_id})"
+           for reply in top.get("replies", []):
+               if reply["id"] == comment_id:
+                   return f"urn:li:comment:({post_urn},{top['id']})"
+       raise ValueError("Comment not found in tree")
+   ```
+
+2. **Build the actual URN string.** Once you have the top-level id (from the
+   walk above, or already carried as `top_level_comment_id`), the real,
+   callable function is `lib.url_parser.build_parent_comment_urn(post_urn,
+   top_level_comment_id)` — this is what SKILL.md's steps actually call. It
+   only builds the string; it does not do the walk, which is why both exist.
 
 ## URL formats the skill accepts
 
@@ -67,8 +81,17 @@ When `replyUrn` is present, that's the specific comment being replied to (for re
 
 ## Reaction targets
 
-Reactions can be placed on:
-- The post itself (`post_urn` passed to `create_reaction`)
-- Any comment or reply (pass the comment's URN as `post_urn` — yes, confusingly named)
+Reactions can land on the post itself or on any comment or reply — Publora's
+`create_reaction` takes this as `target_urn` (renamed from the confusingly
+named `post_urn` it used to be called, since the value is frequently a
+comment's URN, not a post's).
 
-Default flow: react on the specific comment being replied to. Never skip the reaction — a pure reply with no reaction reads as transactional.
+Default flow: react on the specific comment being replied to, never on the
+post. In `lib.publish(kind="reply", ...)`, that means passing `react_target`
+explicitly as the comment/reply's own URN — `parent_comment` is always the
+top-level comment's URN (required for posting), which is only the *same*
+value as the reaction target when the reply is to a top-level comment
+directly. Replying to a 2nd-level reply and omitting `react_target` reacts on
+the top-level comment instead of the one actually being replied to. Never
+skip the reaction entirely — a pure reply with no reaction reads as
+transactional.

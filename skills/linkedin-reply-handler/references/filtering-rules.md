@@ -14,7 +14,7 @@ A short comment that references something specific ("this happened to us in Marc
 
 ## Drop: duplicate or near-duplicate text
 
-If two or more comments in the thread are the same template phrase (a common pattern on posts with 50+ comments: engagement pods, copy-paste "insightful post!" from low-effort accounts), reply to at most one and note the rest as duplicates in the filter summary rather than drafting N near-identical replies.
+If two or more comments in the thread are the same template phrase (a common pattern on posts with 50+ comments: engagement pods, copy-paste "insightful post!" from low-effort accounts), reply to the earliest one chronologically and note the rest as duplicates in the filter summary rather than drafting N near-identical replies.
 
 ## Drop: spam / engagement-bait
 
@@ -28,10 +28,13 @@ Any comment authored by the account running this skill (match by profile URL or 
 
 ## Keep, always
 
+These take precedence over every "Drop" rule above: if a comment matches both
+a Keep and a Drop pattern (a duplicate phrase that also ends in "?", for
+instance), keep it.
+
 - Any comment ending in a question mark
 - Any comment that disagrees, pushes back, or adds a counterpoint
 - Any comment with a named detail, number, or specific example — even if short
-- Any comment from someone who has commented on the user's posts before (worth continuing the relationship even if this specific comment is thin) — flag these as "keep: relationship" rather than auto-filtering on length alone
 
 ## Reporting the filter pass
 
