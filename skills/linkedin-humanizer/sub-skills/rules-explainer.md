@@ -7,7 +7,7 @@ This skill answers a simple question: **for any given rule, is the AI-tell verdi
 ## When to use
 
 - Defending a stylistic choice that a detector flagged ("but Emily Dickinson uses em dashes")
-- Arguing the controversial post about AI-rule overreach
+- Arguing that a specific AI-writing rule is overreach, not a real forensic signal
 - Auditing humanizer output before applying a rewrite
 - Teaching a team which rules are real signals vs which are taste calls
 - Reviewing a false positive from OriginalityAI / GPTZero / Pangram
@@ -53,14 +53,14 @@ These are patterns flagged because LLMs happen to use them, not because they sig
 
 Examples: a single em dash (Emily Dickinson, Cormac McCarthy), the rule of three (Lincoln, Caesar, Churchill), passive voice (Watson & Crick, Joan Didion, all scientific writing), the word "robust" (a century of epidemiology and engineering papers), curly quotes (automatic in Word/Pages, New Yorker house style since 1925).
 
-**Defense strength: high.** These are the rules Sergey's controversial post is built on.
+**Defense strength: high.** These are patterns with centuries of real human use behind them, not AI artifacts.
 
 ## Non-negotiable rules
 
 - Don't conflate tiers. A `[oaicite]` marker and a single em dash are not the same kind of evidence.
 - When defending, name the writer and give the example. "Lincoln" is weaker than "Lincoln, Gettysburg Address, 1863: 'of the people, by the people, for the people'."
 - Cite when available. Stanford HAI and the OpenAI classifier shutdown are the strongest external receipts.
-- Don't defend a rule the user has personally banned (em dashes in his own voice, even though Dickinson used them). Brand voice overrides aesthetic defense.
+- Don't defend a rule the user has personally banned in their own voice (em dashes, say, even though Dickinson used them). Brand voice overrides aesthetic defense.
 
 ## Example
 

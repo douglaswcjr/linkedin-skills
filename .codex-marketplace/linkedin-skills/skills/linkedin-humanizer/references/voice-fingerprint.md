@@ -21,7 +21,7 @@ These are voice signatures, not AI tells. Leave them alone in every tier includi
 
 | Pattern | Why it's voice, not AI |
 |---|---|
-| Lowercase sentence starts (`closed our seed on a tuesday...`) | Users like Serge use this as a deliberate cadence cue. Capitalizing flattens their voice. |
+| Lowercase sentence starts (`closed our seed on a tuesday...`) | Some users write this way as a deliberate cadence cue. Capitalizing flattens their voice. |
 | `..` as a soft pause | This is the humanizer's officially-blessed alternative to em dash. Removing it has nowhere to go. |
 | Sentence fragments (`Worth it.`, `Every time.`, `Not even close.`) | Pass 2 ADDS fragments. Don't remove the ones already there. |
 | Contractions (`don't`, `it's`, `you're`, `we're`) | Mandatory for natural rhythm. Scrubbing curly apostrophes is fine; expanding contractions is not. |

@@ -99,10 +99,10 @@ Fifteen rules from the `linkedin-humanizer` package, sorted by what kind of evid
 
 ### Rule 10. Negative parallelism: "X isn't Y, it's Z"
 
-- **Tier:** strict (Sergey's hard ban)
-- **Why flagged:** "It's not a bug, it's a feature" / "It's not what you say, it's how you say it." LLMs over-deploy this because RLHF reward models favor it as quotable. The user has explicitly banned it as a personal pattern - too clean, too pat, no friction.
-- **Famous human user:** every TED talk 2010-2020. Tony Robbins, Simon Sinek. The pattern is real human rhetoric, but the user rejected it.
-- **Defense strength:** medium in oratory, **zero in this voice** (hard ban).
+- **Tier:** strict (hard ban)
+- **Why flagged:** "It's not a bug, it's a feature" / "It's not what you say, it's how you say it." LLMs over-deploy this because RLHF reward models favor it as quotable. LinkedIn's 2026 reach data backs a hard ban: -4.9% reach on posts that use it (see `tier-rationale.md`), too clean and too pat for a voice that wants friction.
+- **Famous human user:** every TED talk 2010-2020. Tony Robbins, Simon Sinek. The pattern is real human rhetoric, but it costs reach on LinkedIn in 2026.
+- **Defense strength:** medium in oratory, **zero on 2026 LinkedIn** (hard ban).
 - **Citation:** Wikipedia "Signs of AI writing" under "negative parallelism"
 
 ---
@@ -200,5 +200,5 @@ Fifteen rules from the `linkedin-humanizer` package, sorted by what kind of evid
 ---
 
 **Last Updated:** 2026-04-25
-**Maintained By:** Claude Code and Codex, for Sergey Bulaev
-**Purpose:** Educational backbone for the controversial post arguing that AI-writing rules are forensic in some cases and aesthetic overreach in others.
+**Maintained By:** Claude Code and Codex, for Douglas W. C. Jr.
+**Purpose:** Reference for defending a stylistic choice against an AI-writing accusation, distinguishing rules that are forensic (a real model tell) from ones that are aesthetic overreach.

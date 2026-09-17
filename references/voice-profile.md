@@ -9,10 +9,13 @@ the drafts.
 
 > **It is a file in this repository, though, so git can carry it.** If you
 > cloned or forked this repo and you push, a filled profile goes wherever you
-> push it, including a public fork. Either add `references/voice-profile.md` to
-> your `.gitignore`, or keep the filled copy outside the repo and paste it in
-> when you need it. The shipped template is empty; what you add is yours to
-> protect.
+> push it, including a public fork. This repository already fails the push
+> checklist if this file is tracked with `filled: yes` (see
+> `scripts/check_no_secrets.py`), but that is a second layer, not the first:
+> mark the file `skip-worktree` in your local clone (`git update-index
+> --skip-worktree references/voice-profile.md`) before you fill it, or keep
+> the filled copy outside the repo and paste it in when you need it. The
+> shipped template is empty; what you add is yours to protect.
 
 Skills only load this profile when `filled: yes` below. An empty template is
 ignored, so drafts fall back to the generic voice rules until you populate it.
