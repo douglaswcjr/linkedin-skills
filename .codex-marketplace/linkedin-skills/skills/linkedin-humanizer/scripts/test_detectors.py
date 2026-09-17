@@ -191,11 +191,26 @@ MANUAL_DETECTORS = {
 }
 
 
-def detect_manual(name: str, url: str, text: str) -> DetectorResult:
+def _get_prompt_stream():
+    """--stdin drains sys.stdin, so --manual's prompts have nothing left to read from
+    it: reopen the controlling terminal directly instead. Returns None if there is no
+    terminal to reopen (e.g. both stdin and the prompts are being piped)."""
+    if not sys.stdin.isatty():
+        device = "CON" if os.name == "nt" else "/dev/tty"
+        try:
+            return open(device, "r")
+        except OSError:
+            return None
+    return sys.stdin
+
+
+def detect_manual(name: str, url: str, text: str, prompt_stream=None) -> DetectorResult:
+    stream = prompt_stream or sys.stdin
     print(f"\n--- MANUAL: {name} ---")
     print(f"  URL: {url}")
     print(f"  Paste this text (first 80 chars shown): {text[:80]}...")
-    raw = input(f"  Score from {name} (0-100, or blank to skip): ").strip()
+    print(f"  Score from {name} (0-100, or blank to skip): ", end="", flush=True)
+    raw = stream.readline().strip()
     if not raw:
         return DetectorResult(name, None, "skipped")
     try:
@@ -267,12 +282,27 @@ def run_parallel(text: str) -> list[DetectorResult]:
 
 
 def run_manual(text: str) -> list[DetectorResult]:
-    return [detect_manual(name, url, text) for name, url in MANUAL_DETECTORS.items()]
+    stream = _get_prompt_stream()
+    if stream is None:
+        print("WARNING: no terminal available for --manual prompts (stdin is piped and "
+              "no controlling terminal was found); skipping manual detectors.",
+              file=sys.stderr)
+        return [DetectorResult(name, None, "no terminal for manual input")
+                for name in MANUAL_DETECTORS]
+    results = [detect_manual(name, url, text, stream) for name, url in MANUAL_DETECTORS.items()]
+    if stream is not sys.stdin:
+        stream.close()
+    return results
 
 
 def render_report(text: str, results: list[DetectorResult]) -> dict:
     valid = [r for r in results if r.score is not None]
     scores = [r.score for r in valid]
+    # Every branch below returns "scores" and "errors" with the same shape, so a
+    # consumer parsing the JSON never hits a KeyError just because fewer than 2
+    # detectors were configured — which is exactly the case the report exists to
+    # document (missing/disagreeing detectors), not an edge case to special-case away.
+    errors = {r.name: r.error for r in results if r.score is None}
 
     print("\n" + "=" * 60)
     preview = text.strip().replace("\n", " ")[:60]
@@ -289,7 +319,15 @@ def render_report(text: str, results: list[DetectorResult]) -> dict:
     if len(scores) < 2:
         print("\nNot enough detectors returned a score to compute spread.")
         print("Add API keys to .env or use --manual mode.")
-        return {"spread": None, "verdict": "INSUFFICIENT_DATA"}
+        return {
+            "scores": {r.name: r.score for r in valid},
+            "errors": errors,
+            "min": None,
+            "max": None,
+            "spread": None,
+            "verdict": "INSUFFICIENT_DATA",
+            "translation": None,
+        }
 
     lo, hi = min(scores), max(scores)
     spread = round(hi - lo, 1)
@@ -301,6 +339,7 @@ def render_report(text: str, results: list[DetectorResult]) -> dict:
 
     return {
         "scores": {r.name: r.score for r in valid},
+        "errors": errors,
         "min": lo,
         "max": hi,
         "spread": spread,

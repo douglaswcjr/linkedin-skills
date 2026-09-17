@@ -9,6 +9,8 @@ Rewrites any text to remove the AI tells that human readers notice and that Link
 
 **What this skill does not do:** it does not make text "pass" GPTZero, Pangram, Turnitin or Originality. Those are trained classifiers keyed on the instruction-tuning style signature; prompt-style "sound like a real person" rewrites are caught 92-95% of the time (VUB IJEI 2026, Russell 2025), and light mechanical rewriting raises detectability (arXiv 2603.17522). No post-hoc edit reliably beats a Pangram-class detector, and detector scores on LinkedIn-length text (100-300 words) are noise. The real value is elsewhere: expert human readers cite vocabulary (53%) and sentence structure (36%) as what gives AI text away, and LinkedIn's July 2026 slop-report button costs a flagged post roughly 40% of its views. This skill removes what those readers and that filter react to.
 
+**What this actually is:** not "better writing" in the abstract, but text edited specifically so a reader and LinkedIn's own AI-slop filter cannot tell the draft started as AI output. That is a different thing from improving prose quality, and it is worth naming plainly rather than letting "humanize" imply otherwise: publishing under your own name with this scrub applied is a call you make knowingly, not a side effect you discover later.
+
 ## What changed in V3
 
 Evidence tier in brackets: [strong] = replicated across 2+ independent 2025-2026 studies or our own length-controlled corpus; [vendor] = single platform or vendor dataset; [weak] = one study or expert-panel report.
@@ -158,7 +160,7 @@ See `references/examples.md` for worked examples.
 - `references/emoji-patterns.md` — AI-correlated emoji frequency table
 - `references/detector-list.md` — supported AI detectors with API endpoints and accuracy notes
 - `references/audit-ai-tells.md` — blacklist + regex used in audit mode
-- `references/audit-checklist.md` — 20-point pre-publish checklist with thresholds
+- `references/audit-checklist.md` — the manual/printable checklist for publishing without Claude (e.g. from a phone); `--mode audit` itself runs `sub-skills/post-audit.md`, not this file
 - `references/audit-examples.md` — worked audit examples
 - `sub-skills/post-audit.md` — pre-publish audit workflow (detection-only, no rewrite)
 - `sub-skills/rules-explainer.md` — when to defend a flagged rule (em dash, rule of three, passive voice)

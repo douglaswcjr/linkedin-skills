@@ -39,10 +39,20 @@ For each detected AI-pattern emoji:
 Returns a single number (0-100). No rewrite, no suggestions.
 
 Formula:
-- Each AI-pattern emoji contributes `frequency_pct * count * 10`
-- Cap at 100
+- Each AI-pattern emoji contributes `frequency_pct * count * 5`
+- Sum the contributions
 - Bonus +20 if 3+ distinct AI-pattern emojis present (cluster signal)
 - Bonus +15 if a single emoji appears 2+ times (repetition tell)
+- Cap the total at 100
+
+The `* 5` multiplier (not `* 10`) matters: at `* 10`, three typical AI-pattern
+emojis already sum past 100 before the cluster bonus is even added, so every
+multi-emoji post maxes out and the 0-100 scale collapses to "did you use 3+
+emoji, yes or no." At `* 5`, the base sum tracks how AI-correlated the specific
+emojis are, and the cluster/repetition bonuses (not raw count) are what push a
+post from borderline into AI-likely — matching the qualitative cluster rules
+in `../references/emoji-patterns.md` (1 emoji: usually fine; 2: borderline;
+3+: AI-likely) almost exactly. See the worked example below and its self-check.
 
 Verdicts:
 - 0-20: clean
@@ -79,7 +89,7 @@ Default mode is between the two: flag if score >20.
 > "Excited to share our new feature 🚀 Game-changing AI ✨ Unlock your potential 💡 Let's go 🔥"
 >
 > **Output (default mode):**
-> Score: 78 / 100 — AI-likely
+> Score: 71 / 100 — AI-likely
 >
 > Flagged:
 > - 🚀 rocket (3.28% AI freq, 1 use) → consider 📦 or remove
@@ -87,10 +97,39 @@ Default mode is between the two: flag if score >20.
 > - 💡 lightbulb (2.57% AI freq, 1 use) → 🪛 or remove
 > - 🔥 fire (1.31% AI freq, 1 use) → keep or swap to 🌶️
 >
-> Cluster bonus: +20 (4 distinct AI-pattern emojis)
+> Base sum: (3.28 + 3.11 + 2.57 + 1.31) × 5 = 51.35. Cluster bonus: +20 (4
+> distinct AI-pattern emojis). Total: 71.35 → 71.
 >
 > **Suggested rewrite:**
 > "Excited to share our new feature. AI that actually works. Try it. 🌶️"
+
+### Self-check (SCORE formula against the example above)
+
+```python
+FREQ = {"🚀": 3.28, "✨": 3.11, "💡": 2.57, "♻️": 2.93, "🎯": 2.07,
+        "📈": 1.89, "🔑": 1.74, "💪": 1.45, "🔥": 1.31}
+
+def score(counts: dict[str, int]) -> float:
+    """counts: {emoji: how many times it appears}. Mirrors the SCORE formula above."""
+    base = sum(FREQ[e] * n * 5 for e, n in counts.items() if e in FREQ)
+    distinct = sum(1 for e in counts if e in FREQ)
+    repeated = any(n >= 2 for e, n in counts.items() if e in FREQ)
+    total = base + (20 if distinct >= 3 else 0) + (15 if repeated else 0)
+    return min(100, round(total, 2))
+
+# The worked example above: 4 distinct AI-pattern emojis, one use each.
+assert score({"🚀": 1, "✨": 1, "💡": 1, "🔥": 1}) == 71.35
+
+# Cluster-rules sanity checks from ../references/emoji-patterns.md:
+# "1 in isolation: usually fine" -> clean band (0-20)
+assert score({"💡": 1}) <= 20
+# "2 in one post: borderline" -> borderline band (21-50)
+assert 21 <= score({"💡": 1, "🚀": 1}) <= 50
+# "3+ in one post: AI-likely" -> AI-likely band (51-100)
+assert score({"💡": 1, "🚀": 1, "✨": 1}) >= 51
+# "same emoji 2+ times: repetition tell" pushes a single emoji out of "clean"
+assert score({"🚀": 2}) > score({"🚀": 1})
+```
 
 ## Files
 

@@ -98,14 +98,22 @@ Five primary detectors plus optional extras. Each entry covers: API endpoint, au
 
 ## Optional / extended detectors
 
-None of these have a free API, so the script cannot call them. Run them by hand and enter the
-scores with `--manual`; there is no `--extra` flag.
+None of these have a free API, so `test_detectors.py` cannot call them automatically. The
+script's `--manual` mode walks you through exactly four of them (`MANUAL_DETECTORS` in
+`../scripts/test_detectors.py`) — the ones below with a free web UI you can actually open
+and paste into:
 
-- **Turnitin AI Writing** — disabled by Vanderbilt, Cambridge, others. No public API; institutional only.
-- **Winston AI** — https://gowinston.ai. Paid only.
-- **Crossplag AI** — https://crossplag.com. Paid only.
 - **Writer.com AI Content Detector** — free web UI, no API. Use `--manual` mode.
 - **Scribbr AI Detector** — free web UI, no API. Use `--manual` mode.
+- **QuillBot AI Content Detector** — free web UI, no API. Use `--manual` mode.
+- **Hive Moderation AI-Generated Content Detection** — free web UI, no API. Use `--manual` mode.
+
+These three have no API **and** no `--manual` support in the script — not usable from this
+tool at all, by hand or otherwise:
+
+- **Turnitin AI Writing** — disabled by Vanderbilt, Cambridge, others. No public API; institutional only, not available to an individual user regardless of mode.
+- **Winston AI** — https://gowinston.ai. Paid only.
+- **Crossplag AI** — https://crossplag.com. Paid only.
 
 ---
 

@@ -1,5 +1,12 @@
 # LinkedIn Post Audit Checklist
 
+**This is the manual, printable checklist for publishing without Claude in the loop**
+(e.g. from a phone, or reviewing someone else's draft by eye). When Claude runs the
+audit itself, it executes `../sub-skills/post-audit.md` instead — that is what
+`linkedin-humanizer --mode audit` is wired to in `SKILL.md`, not this file. The two
+cover similar ground on purpose; keep them in sync when either changes, since nothing
+enforces that automatically.
+
 Run every draft through this before publishing. **Any FAIL = fix before posting.**
 
 ## Hook (first 3 lines)

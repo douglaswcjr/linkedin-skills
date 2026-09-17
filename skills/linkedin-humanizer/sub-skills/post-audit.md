@@ -1,5 +1,11 @@
 # LinkedIn Post Audit
 
+**This is the workflow `linkedin-humanizer --mode audit` actually runs.** For the
+printable/manual checklist a user runs by hand when publishing without Claude
+(e.g. from a phone), see `../references/audit-checklist.md` instead — the two cover
+similar ground but are not the same document, and only this one is wired into
+`SKILL.md`.
+
 Run any post draft through the 2026 heuristic checklist. Catches AI tells, timing/format issues, length violations, and structural weaknesses before publishing.
 
 ## When to use
@@ -76,4 +82,4 @@ See `../references/audit-examples.md` for worked examples.
 ## Related skills
 
 - `linkedin-humanizer` — aggressive rewrite if audit fails
-- `linkedin-post-writer` — regenerate draft using a proven formula
+- `linkedin-post-writer` — regenerate draft using a proven formula; items 21-23 above cite the shared `../../../references/hook-formulas.md` "Engagement-goal split" table that skill also reads
