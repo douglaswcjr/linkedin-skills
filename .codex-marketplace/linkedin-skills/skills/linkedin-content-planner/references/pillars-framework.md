@@ -192,7 +192,7 @@ Mon  commenting day (no post; 20+ substantive comments)
 Tue  Authority post (framework / teardown)
 Wed  Personal Narrative (confession / lesson / story)
 Thu  Community (poll OR spotlight OR question post)
-Fri  Authority OR Contrarian Historical
+Fri  Authority (e.g. F10 Contrarian Historical)
 Sat  off
 Sun  off (OR newsletter if you have one)
 ```
