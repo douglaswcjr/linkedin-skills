@@ -174,13 +174,26 @@ class SkillConventions(unittest.TestCase):
 
     def test_skills_that_read_other_peoples_text_carry_the_untrusted_rule(self):
         """Anything reading the Apify layer handles text strangers wrote. The
-        data-is-not-instructions rule has to travel with it."""
+        data-is-not-instructions rule has to travel with it.
+
+        Checked per file, not per skill: a sub-skill can be read on its own
+        (linked to directly, or opened without its parent SKILL.md), so the
+        fetch call and the untrusted-content section both have to live in the
+        same document. A sub-skills/ directory hid exactly this gap once
+        already (voice-profile.md called fetch_user_recent_comments with no
+        rule anywhere in the file) because this test used to check only
+        SKILL.md."""
         missing = []
         for skill in SKILLS:
-            text = (skill / "SKILL.md").read_text(encoding="utf-8")
-            reads = re.search(r"fetch_post|fetch_post_comments|fetch_user_recent_comments|fetch_post_engagers", text)
-            if reads and "Untrusted content" not in text:
-                missing.append(skill.name)
+            docs = [skill / "SKILL.md"]
+            sub_skills_dir = skill / "sub-skills"
+            if sub_skills_dir.is_dir():
+                docs.extend(sorted(sub_skills_dir.glob("*.md")))
+            for doc in docs:
+                text = doc.read_text(encoding="utf-8")
+                reads = re.search(r"fetch_post|fetch_post_comments|fetch_user_recent_comments|fetch_post_engagers", text)
+                if reads and "Untrusted content" not in text:
+                    missing.append(f"{skill.name}/{doc.name}")
         self.assertEqual(missing, [], "reads fetched text without the untrusted-content section:\n  " + "\n  ".join(missing))
 
     def test_skill_local_hard_rules_defer_to_the_global_voice_rules(self):

@@ -174,4 +174,8 @@ See `references/examples.md` for worked examples.
 
 ## Related skills
 
-- `linkedin-post-writer` — generates drafts that already pass the humanizer
+- `linkedin-post-writer` — generates drafts that already pass the humanizer, and reads its illustration workflow separately at `../linkedin-post-writer/sub-skills/illustration.md`
+- `linkedin-comment-drafter` — reads the filled Voice Profile before drafting a comment
+- `linkedin-reply-handler` — reads the filled Voice Profile before drafting a reply
+- `linkedin-repurposer` — reads the filled Voice Profile before turning outside content into a post
+- `linkedin-interviewer` — the other half of the user model (`--mode profile` learns how they write; `linkedin-interviewer` learns what they have to say)

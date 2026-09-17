@@ -73,9 +73,14 @@ otherwise.
   the skill with bare `references/X.md`. Cite root from skills with
   `../../references/X.md`.
 - `linkedin-humanizer` has `sub-skills/` for folded-in workflows
-  (post-audit, emoji-detector, detector-tester, rules-explainer) and
-  `scripts/` for runnable tools. Don't duplicate this pattern in other
-  skills without a clear reason.
+  (post-audit, emoji-detector, detector-tester, rules-explainer,
+  voice-profile) and `scripts/` for runnable tools. `linkedin-post-writer`
+  also has a `sub-skills/` (illustration only, moved out of
+  `linkedin-humanizer` where it was undocumented and thematically
+  unrelated to AI-tell scrubbing). Don't add another `sub-skills/`
+  elsewhere without an equally clear reason, and don't let a sub-skill go
+  unlisted in its own `SKILL.md` Files/Resources section the way
+  illustration did before the move.
 
 ## .claude/skills mirror
 
