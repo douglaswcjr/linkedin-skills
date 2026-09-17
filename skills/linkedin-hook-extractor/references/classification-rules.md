@@ -29,6 +29,7 @@ Features extracted from a post and how they map to formulas.
 - `commitment_close`: "If I'm wrong, I owe you a post"
 - `soft_offer`: "Connect + DM me for X"
 - `comment_gate`: "Comment KEYWORD below"
+- `metaphor_close`: final line reframes the whole post as a metaphor/analogy (e.g., "castles on rented land vs roads")
 
 ## Mapping features → formulas
 
@@ -80,15 +81,52 @@ FORMULA_RULES = {
 ## Confidence scoring
 
 ```python
+def eval_feature(features: dict, expr: str) -> bool:
+    """Resolve a required-list predicate: a bare flag, 'field >= N', or 'a OR b'."""
+    expr = expr.strip()
+    if " OR " in expr:
+        return any(eval_feature(features, part) for part in expr.split(" OR "))
+    if ">=" in expr:
+        key, threshold = expr.split(">=")
+        return features.get(key.strip(), 0) >= float(threshold.strip())
+    return bool(features.get(expr, False))
+
+
 def score_formula(post_features: dict, rules: dict) -> float:
-    required_met = sum(1 for r in rules["required"] if eval_feature(post_features, r))
-    if required_met < len(rules["required"]):
+    if not all(eval_feature(post_features, req) for req in rules["required"]):
         return 0.0
     boost = sum(1 for b in rules["boost"] if post_features.get(b))
-    return 1.0 + 0.15 * boost  # cap at 1.6
+    return min(1.0, 0.5 + 0.1 * boost)
+
+
+def classify_post(post_features: dict, formula_rules: dict = FORMULA_RULES) -> list[tuple[str, float]]:
+    """Formulas that fired, confidence normalized to sum to 1.0 across them, top 2."""
+    scores = {f: s for f, r in formula_rules.items() if (s := score_formula(post_features, r)) > 0}
+    if not scores:
+        return []  # nothing fired -> free-form narrative, see Edge cases below
+    total = sum(scores.values())
+    ranked = sorted(((f, s / total) for f, s in scores.items()), key=lambda x: x[1], reverse=True)
+    return ranked[:2]
 ```
 
-Return top 2 formulas with score > 0.8.
+`classify_post` is what Step 4 of `SKILL.md` calls. It only covers **F1-F10** — see "F11-F20: qualitative, not scored" below for the rest.
+
+## F11-F20: qualitative, not scored
+
+`FORMULA_RULES` only has entries for F1-F10. F11-F16 are matched against the
+prose cues in `SKILL.md` Step 3 (an in-medias-res emotional scene, a "roll-call
+of named people thanked", etc.); F17-F20 are matched against the structural
+descriptions in `../../../references/hook-formulas.md` (a controlled one-variable
+comparison, two diverging trajectories, and so on). Neither path runs through
+`score_formula` — the confidence reported for these 10 formulas is a judgment
+call grounded in how closely the post matches the formula's skeleton, not a
+computed number. Several of them (F17 Controlled A/B, F18 False-Binary, F19
+Evidence Bridge, F20 Diverging-Curves) are structural/logical patterns that
+don't reduce to a handful of booleans without the boolean itself requiring the
+same reading judgment — adding a `FORMULA_RULES` entry for them would look
+more rigorous without being more accurate. When reporting a confidence score
+for F11-F20, flag it as an estimate rather than presenting it the same way as
+an F1-F10 score.
 
 ## Edge cases
 
