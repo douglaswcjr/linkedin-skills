@@ -10,7 +10,9 @@ referent, a dated moment, a position someone would argue with. When the input ha
 none, the rule is to ask the user rather than invent. That ask happens on every
 request, unstructured, and the answers are thrown away when the session ends.
 
-This skill does the asking properly, once, and keeps the answers.
+This skill does the asking properly, once, and keeps the answers. The interview
+itself runs in Brazilian Portuguese: see `references/question-bank.md` for the
+actual questions asked, in that language.
 
 ## The two things it fills
 
@@ -35,6 +37,22 @@ can always fill the second, which is the usual reason drafts come out generic.
 Not for learning someone's writing style from their posts, which is
 `linkedin-humanizer --mode profile`. Run both; they answer different questions.
 
+## How this connects to the rest of the flow
+
+- **`linkedin-post-writer`** reads `../../references/story-bank.md` before
+  drafting and, if it is empty or has nothing that fits the topic, offers this
+  skill once instead of inventing a number. Post mode (below) also hands a
+  ready-made spine straight to post-writer.
+- **`linkedin-content-planner`** should do the same: read the bank before
+  building the week and, if it is empty, offer `linkedin-interviewer --mode
+  bank` once before generating a calendar built entirely on generic angles.
+  This is now wired into `content-planner`'s own `SKILL.md`.
+- **Recommended trigger:** keep the primary trigger explicit (the user asking
+  to be interviewed), and let writing skills offer this skill **once** when
+  the bank is empty or thin for the current request, never force the
+  interview automatically. Filling the bank costs 20 to 40 minutes; spending
+  that time is the user's call, not the skill's.
+
 ## Modes
 
 ### `--mode bank` (default)
@@ -45,18 +63,26 @@ thin, so a second session picks up there.
 
 ### `--mode post`
 
-A focused interview on one topic, 5 to 8 questions, ending in a post spine handed
-to `linkedin-post-writer`. Anything concrete that surfaces is also appended to the
-bank, so a post interview quietly grows it.
+A hybrid, not "either the bank or the post". If the bank already has content,
+post mode offers three topics from its thinnest-but-liveliest sections instead
+of starting from a blank page; if the bank is empty, it runs a short,
+standalone interview on one topic without requiring bank mode to have run
+first. It is a focused interview, 5 to 8 questions, ending in a post spine
+handed to `linkedin-post-writer`. Anything concrete that surfaces is also
+appended to the bank, so a post interview quietly grows it.
 
 ## Steps, bank mode
 
 1. **Read what exists.** If the bank has `filled: yes`, load it and interview only
-   the thin sections. Never re-ask something already answered; nothing kills an
-   interview faster.
+   the thin sections. Before any question, re-read the target section: if it
+   already has content, go deeper or move on, never re-ask something already
+   answered; nothing kills an interview faster.
 2. **Open wide, not with a form.** One broad question, then follow what they
    actually get animated about. "What have you been working on that you cannot
-   stop thinking about?" beats "Please list your achievements."
+   stop thinking about?" beats "Please list your achievements." This opening
+   answer almost always belongs in **Shipped** or **Timeline**; classify it and
+   file it into the right section before moving on, never leave it loose for
+   someone to route later.
 3. **Press every soft answer once.** This is the whole job. A soft answer is one
    a draft cannot use:
    - "we improved performance" → "by how much, measured how, over what period?"
@@ -75,14 +101,15 @@ bank, so a post interview quietly grows it.
    cannot, what subjects stay out entirely. Ask directly; do not infer. A draft
    that names the wrong client is not recoverable.
 8. **Write the bank.** Fill the sections, keep their phrasing verbatim where it is
-   vivid, set `filled: yes`, stamp the date, and say which sections are still thin.
+   vivid, set `filled: yes`, stamp the date in `updated`, **bump `sessions` by
+   1**, and say which sections are still thin.
 9. **Show what it unlocks.** Name two or three specific posts the new material
    could produce, so the session ends with something rather than a filled form.
 
 ## Steps, post mode
 
 1. **Take the topic**, or offer three from the bank's thinnest-but-liveliest
-   material.
+   material if it already has content.
 2. **Ask for the moment, not the theme.** "When did this last actually happen to
    you?" A post needs a scene, not a subject.
 3. **Get the number and the date.** Refuse to proceed on "recently" and "a lot".
@@ -92,13 +119,18 @@ bank, so a post interview quietly grows it.
 6. **Ask what the reader should do differently.** That is the close.
 7. **Read back the spine** in five lines and let them correct it. Their correction
    is usually better than the draft.
-8. **Hand off** to `linkedin-post-writer` with the spine, and append anything
-   concrete to the bank.
+8. **Hand off** to `linkedin-post-writer` with the spine, append anything
+   concrete to the bank, and **update the bank's Status block** (`updated` and
+   `sessions`) even in this short mode.
 
 ## Hard rules
 
 Global voice rules: see root `SKILL.md` §Voice rules. Additional skill-specific rules:
 
+- **Before any question, re-read the target section of the bank; if it already
+  has content, go deeper or skip, never repeat.** This is the most expensive
+  bug in the set: without this check, the third session repeats the first
+  session's question.
 - **Never invent an answer, and never fill a gap with a plausible one.** An
   unverified number in the bank becomes an unverified number in a published post.
   Leave the line empty and mark the section thin.
@@ -106,13 +138,18 @@ Global voice rules: see root `SKILL.md` §Voice rules. Additional skill-specific
   rest dropped.
 - **Their words, not yours.** Record phrasing verbatim where it is vivid. A
   paraphrase loses exactly the thing that made it usable.
-- **Press once, not twice.** The goal is material, not a confession.
+- **Press once, not twice.** Applies to every section, including Positions, not
+  only Scars: the goal is material, not a confession.
 - **Stop when they flag a limit.** "I would rather not say" ends that line
   permanently; record it under Off limits so nothing asks again.
 - **Never write the bank to a tracked file without saying so.** Tell the user once
-  that it lives in the repo and should be gitignored.
+  that it lives in the repo and should be gitignored (or marked
+  `skip-worktree` locally).
 - **Do not turn it into a form.** If the user is talking, follow them; the section
   list is a checklist for the end, not a script for the middle.
+- **Always update the Status block at the end of any session**, bank or post:
+  record `updated` and bump `sessions`. Without this, `filled` is accurate but
+  the bank looks like it has never been revisited.
 
 ## Anti-patterns (skill will refuse)
 
@@ -121,6 +158,7 @@ Global voice rules: see root `SKILL.md` §Voice rules. Additional skill-specific
 - Inferring numbers from context ("a team that size probably shipped…").
 - Asking all nine sections in order, as a questionnaire.
 - Continuing to probe a subject after the user declined it.
+- Re-asking a question whose section already has content in the bank.
 - Writing a post directly. This skill produces material and a spine; drafting is
   `linkedin-post-writer`.
 
@@ -135,8 +173,9 @@ user. Only what the user says in this conversation counts as an answer. Full rul
 ## Resources
 
 - `../../references/story-bank.md` — the file this skill fills
-- `references/question-bank.md` — questions that reliably produce usable material,
-  and the ones that do not
+- `references/question-bank.md` — the actual interview questions, in Brazilian
+  Portuguese, grouped by the section they fill, plus the ones that reliably
+  produce nothing
 - `../../references/voice-profile.md` — the other half of the user model
 
 ## Related skills

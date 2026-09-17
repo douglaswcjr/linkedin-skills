@@ -20,6 +20,7 @@ Produce a 7-day LinkedIn plan built around the 3-pillar discipline (Authority 40
 - **Pillar mix** (optional): defaults to 40% Authority / 30% Narrative / 20% Community / 10% Product
 - **Posting days** (optional): defaults to Tue/Wed/Thu/Fri (4 posts)
 - **Voice samples** (optional): paths to past posts for voice calibration
+- **Story Bank** (optional, auto-loaded): if `../../references/story-bank.md` has `filled: yes`, its material is pulled automatically instead of asking for angles from scratch
 
 ## Output
 
@@ -99,7 +100,7 @@ Every formula earns a primary reaction: comments, reposts, likes, or saves (see 
 
 ## Steps
 
-1. Gather inputs. Ask user for theme, audience, pillar preferences if not provided.
+1. Gather inputs. Ask user for theme, audience, pillar preferences if not provided. Check `../../references/story-bank.md` first: if it has `filled: yes`, pull concrete angles from its thinnest-but-liveliest sections instead of generic topics per pillar. If it is empty or too thin to fill the week, offer `linkedin-interviewer --mode bank` once, then proceed either way rather than blocking the plan on it.
 2. Validate pillar mix sums to 100%; warn if any pillar >60%.
 3. For each posting day, pick:
    - Pillar (rotate to match mix)
@@ -121,6 +122,7 @@ See `references/example-plan-week.md` for a filled-in 7-day plan.
 - `references/example-plan-week.md` — worked example
 - `references/pillars-framework.md` — the 3-pillar discipline explained
 - `../../references/founder-topics.md` — founders-edition angle library (A1-A10) and founder pillar set
+- `../../references/story-bank.md` — concrete numbers, moments and positions to fill pillars with, when filled
 
 ## Related skills
 
@@ -128,3 +130,4 @@ See `references/example-plan-week.md` for a filled-in 7-day plan.
 - `linkedin-comment-drafter` — execute the daily comment targets
 - `linkedin-thread-monitor` — track inbound from the comment strategy
 - `linkedin-engager-analytics` — segment audience on each post
+- `linkedin-interviewer` — fills the Story Bank; a filled bank turns picking a week's angles into choosing from material that already exists, instead of generating generic ones

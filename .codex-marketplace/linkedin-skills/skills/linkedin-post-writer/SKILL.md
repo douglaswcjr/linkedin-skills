@@ -125,3 +125,4 @@ Global voice rules: see root `SKILL.md` §Voice rules. Additional skill-specific
 
 - `linkedin-humanizer` — aggressive AI-tell scrubber, plus `--mode audit` for pre-publish review
 - `linkedin-hook-extractor` — reverse-engineer a hook from a viral post you admire
+- `linkedin-interviewer` — fills the Story Bank this skill reads for concrete numbers and moments; offer it once when the bank has nothing for the topic

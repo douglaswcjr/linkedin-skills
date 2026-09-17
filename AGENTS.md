@@ -34,9 +34,10 @@ otherwise.
 
 ## Commits
 
-- Primary author **must** be Sergey: every `git commit` needs
-  `--author="Sergey Bulaev <s@bulaev.org>"`. Verify with
-  `git log -1 --format='%an <%ae>'` before pushing.
+- Primary author is the repo owner's own configured git identity (`git
+  config user.name` / `user.email`, set once locally), not a hardcoded
+  `--author` override. Verify with `git log -1 --format='%an <%ae>'` before
+  pushing.
 - Co-author trailers are fine when appropriate.
 - Verify locally before push: build never breaks, no broken refs in
   `SKILL.md`, library smoke import passes.

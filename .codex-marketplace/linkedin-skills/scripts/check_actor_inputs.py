@@ -28,7 +28,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 # Apify's CDN answers 403 to urllib's default User-Agent on some edges.
-USER_AGENT = "linkedin-skills-actor-check/1 (+https://github.com/sergebulaev/linkedin-skills)"
+USER_AGENT = "linkedin-skills-actor-check/1 (+https://github.com/douglaswcjr/linkedin-skills)"
 SCHEMA_URL = "https://api.apify.com/v2/acts/{actor}/builds/default"
 
 
