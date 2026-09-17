@@ -119,7 +119,7 @@ Global voice rules: see root `SKILL.md` §Voice rules. Additional skill-specific
 - `../../references/hook-formulas.md` — all 20 formula skeletons with worked examples, per-formula 2026 reach notes, "What still lifts reach in 2026" and the Density rule
 - `../../references/founder-topics.md` — founders-edition library of 10 founder angles (A1-A10) with fill-in templates
 - `../../references/algorithm-heuristics.md` — 2026 posting rules (timing, format, length)
-- `references/humanizer-checklist.md` — the full scrub list
+- `../linkedin-humanizer/references/scrub-rules.md` — the full scrub list (canonical; do not duplicate it locally)
 
 ## Related skills
 

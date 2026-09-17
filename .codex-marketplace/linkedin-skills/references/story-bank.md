@@ -10,9 +10,13 @@ from what you already told it once.
 
 > **Keep this out of git.** It holds career detail, figures, failures and named
 > people. It is a file in this repository, so a push carries it wherever you push,
-> a public fork included. Add `references/story-bank.md` to your `.gitignore`
-> before you fill it, or keep the filled copy outside the repo. Nothing here is
-> sent to us or to any service; git is the only way it travels.
+> a public fork included. This repository already fails the push checklist if
+> this file is tracked with `filled: yes` (see `scripts/check_no_secrets.py`),
+> but that is a second layer, not the first: mark the file `skip-worktree` in
+> your local clone (`git update-index --skip-worktree
+> references/story-bank.md`) before you fill it, or keep the filled copy
+> outside the repo. Nothing here is sent to us or to any service; git is the
+> only way it travels.
 
 Fill it by running `linkedin-interviewer`, which interviews you and writes this
 file. You can also edit it by hand at any time; the skill reads whatever is here.
@@ -95,6 +99,10 @@ deals, litigation, health, other people's business, anything under NDA.
 - (…)
 
 ---
+
+<!-- SYSTEM NOTE -- not meant to be filled in or edited as user data. This
+section documents how the writing skills read this file. Do not delete it
+when editing the sections above. -->
 
 ## How drafts use this
 

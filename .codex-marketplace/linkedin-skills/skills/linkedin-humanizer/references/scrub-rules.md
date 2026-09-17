@@ -515,7 +515,7 @@ CLOSER_TELLS = [
 
 ## Preserve these (user voice, don't scrub)
 
-- Lowercase sentence starts, when that is the user's own deliberate pattern (check `voice-profile.md` before flattening it)
+- Lowercase sentence starts, when that is the user's own deliberate pattern (check `../../../references/voice-profile.md` before flattening it)
 - `..` as soft pause (not em dash)
 - One or two sentence fragments used intentionally ("Worth it.", "Every time.") - the cap is 2 per post, not 0
 - One em dash per ~100 words. Do not push the count to zero; zero is below the human baseline
