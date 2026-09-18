@@ -2,22 +2,38 @@
 
 ## Thread stage classification
 
-| Time since user's comment | Time since last reply | Stage | Priority |
-|---|---|---|---|
-| <6h | any | Watch (author may still reply) | Low — check back |
-| 6-24h | author replied <2h ago | **Hot** — respond within 90 min | HIGH |
-| 6-24h | author replied 2-12h ago | **Warm** — respond within 2h | HIGH |
-| 6-24h | no author reply | Cold — skip | — |
-| 24-72h | author replied recently | Cool — respond within 4h | Medium |
-| 24-72h | no author reply | Dormant | — |
-| >72h | any | Dormant — switch to DM | Medium (if inbound-quality) |
+This is the single source of truth for stage names and thresholds —
+`SKILL.md` cites this table rather than redefining it.
 
-## The warm-reply window explained
+**When the author has replied**, the stage is driven entirely by how recent
+that reply is, not by the age of the original comment:
+
+| Time since author's reply | Stage | Priority |
+|---|---|---|
+| <2h | **Hot** — respond within 90 min | HIGH |
+| 2-12h | **Warm** — respond within 2h | HIGH |
+| 12h+, but the thread's last turn is still <72h old | **Cool** — respond within 4h | Medium |
+| Thread's last turn is >72h old | **Dormant** — switch to DM | Medium (if inbound-quality) |
+
+**When the author has not replied yet**, the stage is driven by the age of
+the user's own comment:
+
+| Time since user's comment | Stage | Priority |
+|---|---|---|
+| <6h | **Watch** — author may still reply, check back | Low |
+| 6-24h | **Cold** — skip, past the peak-reply window | — |
+| >24h | **Dormant** — switch to DM if inbound-quality | — |
+
+## The peak-reply window explained
+
+Not to be confused with the "Warm" stage above — this is a different axis:
+when authors *tend* to reply at all (population behavior), not how fast you
+should follow up once one actually does.
 
 Real example from 2026-04:
-- 14:27 UTC: Serge posted comment on a CEO's post ("moat moved from tools to taste")
+- 14:27 UTC: the user posted a comment on a CEO's post ("moat moved from tools to taste")
 - 12:06 UTC next day (~22h later): the author replied personally ("How are you building that conviction muscle with your team?")
-- 16:24 UTC that day (~28h after original comment, ~4h after the author's reply): Serge replied with his answer
+- 16:24 UTC that day (~28h after original comment, ~4h after the author's reply): the user replied with their answer
 
 This is the exact window the skill targets. Miss it by 12+ hours and the reply lands in a dormant thread where the author doesn't get the notification prominently.
 
