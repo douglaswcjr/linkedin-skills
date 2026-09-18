@@ -9,11 +9,47 @@ from __future__ import annotations
 
 import shutil
 import subprocess
+import sys
+import time
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DEST = ROOT / ".codex-marketplace" / "linkedin-skills"
+
+
+def rmtree_with_retry(path: Path, attempts: int = 3, delay: float = 0.5) -> None:
+    """Delete a directory tree, working around OneDrive on Windows.
+
+    A OneDrive-synced checkout (Files On-Demand) can put a directory in a
+    state where shutil.rmtree raises PermissionError repeatedly -- this is
+    not a brief lock that clears with a short wait (confirmed: it still
+    failed after 15 retries over 14s on an already-empty directory), it is
+    Python's rmdir call disagreeing with how OneDrive represents the entry.
+    `rmdir /s /q` (native Windows) removes the same path instantly. So: a
+    couple of quick shutil retries for the case that genuinely is a brief
+    lock, then fall back to the native command, which is what a human
+    running `Remove-Item -Recurse -Force` from PowerShell would also do.
+    """
+    for attempt in range(1, attempts + 1):
+        try:
+            shutil.rmtree(path)
+            return
+        except PermissionError:
+            if attempt == attempts:
+                break
+            time.sleep(delay)
+
+    if sys.platform != "win32":
+        shutil.rmtree(path)  # re-raise the real error on non-Windows
+        return
+
+    result = subprocess.run(["cmd", "/c", "rmdir", "/s", "/q", str(path)],
+                            capture_output=True, text=True)
+    if path.exists():
+        raise PermissionError(
+            f"could not remove {path} even via rmdir /s /q: {result.stderr.strip()}"
+        )
 
 PATHS_TO_COPY = [
     ".codex-plugin",
@@ -79,7 +115,7 @@ def restore_templates(package_references: Path) -> list[str]:
 
 def main() -> None:
     if DEST.exists():
-        shutil.rmtree(DEST)
+        rmtree_with_retry(DEST)
     DEST.mkdir(parents=True)
 
     for rel in PATHS_TO_COPY:

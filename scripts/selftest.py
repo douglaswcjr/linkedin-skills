@@ -116,15 +116,28 @@ def phase_install(root: pathlib.Path) -> Phase:
             return {line[3:] for line in out.splitlines()}
 
         before = state()
-        subprocess.run([sys.executable, str(sync)], cwd=root, capture_output=True, timeout=120)
-        changed = state() - before
-        if not changed:
-            phase.add(PASS, "codex package in sync", "regenerating it changes nothing")
-        else:
+        result = subprocess.run([sys.executable, str(sync)], cwd=root,
+                                capture_output=True, text=True, timeout=120)
+        if result.returncode != 0:
+            # A crashed sync can leave .codex-marketplace partially deleted
+            # (e.g. shutil.rmtree hit a locked file mid-run, on a OneDrive-
+            # synced checkout). The git-status diff below would read that
+            # half-deleted tree as "unchanged" if it happens to match what
+            # was already dirty, so a crash must be reported directly rather
+            # than falling through to the diff comparison.
+            last_line = (result.stderr.strip().splitlines() or ["no output"])[-1][:120]
             phase.add(FAIL, "codex package in sync",
-                      f"{len(changed)} file(s) were stale: "
-                      + ", ".join(sorted(pathlib.Path(f).name for f in changed)[:3])
-                      + " - run sync_codex_marketplace.py")
+                      f"sync_codex_marketplace.py crashed (exit {result.returncode}): {last_line} "
+                      "- re-run it; on OneDrive this is usually a transient file lock")
+        else:
+            changed = state() - before
+            if not changed:
+                phase.add(PASS, "codex package in sync", "regenerating it changes nothing")
+            else:
+                phase.add(FAIL, "codex package in sync",
+                          f"{len(changed)} file(s) were stale: "
+                          + ", ".join(sorted(pathlib.Path(f).name for f in changed)[:3])
+                          + " - run sync_codex_marketplace.py")
     return phase
 
 
