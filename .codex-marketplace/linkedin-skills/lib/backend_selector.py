@@ -193,6 +193,13 @@ def publish(
         - publora: dict from PubloraClient (comment/post payload).
         - manual:  dict with `{"mode": "manual", "message": <copy-paste block>}`.
         - diy:     dict with `{"mode": "diy", "returncode": int, "stdout": str, "stderr": str}`.
+        - `{"mode": "error", "message": <what happened>}` if the publora call
+          fails even after its built-in retries (expired token, sustained
+          rate limit, Publora unreachable) or the diy command can't run
+          (missing executable, timeout). Callers should fall back to
+          `manual_mode_message(draft_text, target_url, kind=kind)` so the
+          user gets the draft to paste by hand instead of losing the turn
+          to an unhandled exception.
         Returns None only if the chosen backend cannot run (missing deps).
     """
     backend = active_backend()
@@ -242,22 +249,33 @@ def publish(
                 except Exception:
                     # Reaction is a nice-to-have; never block the comment on it.
                     pass
-            return client.create_comment(
-                post_urn=post_urn,
-                message=draft_text,
-                platform_id=platform_id,
-                parent_comment=parent_comment,
-            )
+            try:
+                return client.create_comment(
+                    post_urn=post_urn,
+                    message=draft_text,
+                    platform_id=platform_id,
+                    parent_comment=parent_comment,
+                )
+            except Exception as e:
+                # Retries are already exhausted inside the client (see
+                # publora_client._retry) by the time this fires, so this is a
+                # real failure (expired token, sustained rate limit, Publora
+                # down) -- never let it crash the turn after the user already
+                # approved the draft.
+                return {"mode": "error", "message": str(e)}
 
         if kind == "post":
             # Publora /create-post wants a list of platform ID strings, not dicts.
             platforms = kwargs.get("platforms") or [platform_id]
-            return client.create_post(
-                content=draft_text,
-                platforms=platforms,
-                scheduled_time=kwargs.get("scheduled_time"),
-                media_urls=kwargs.get("media_urls"),
-            )
+            try:
+                return client.create_post(
+                    content=draft_text,
+                    platforms=platforms,
+                    scheduled_time=kwargs.get("scheduled_time"),
+                    media_urls=kwargs.get("media_urls"),
+                )
+            except Exception as e:
+                return {"mode": "error", "message": str(e)}
 
         if kind == "reshare":
             # `parent` is the original post's share/ugcPost URN; callers may pass
@@ -265,12 +283,15 @@ def publish(
             parent = kwargs.get("parent")
             if not parent:
                 return None  # unresolved parent -> caller asks user for the URN
-            return client.create_reshare(
-                parent=parent,
-                platform_id=platform_id,
-                commentary=draft_text or None,
-                visibility=kwargs.get("visibility", "PUBLIC"),
-            )
+            try:
+                return client.create_reshare(
+                    parent=parent,
+                    platform_id=platform_id,
+                    commentary=draft_text or None,
+                    visibility=kwargs.get("visibility", "PUBLIC"),
+                )
+            except Exception as e:
+                return {"mode": "error", "message": str(e)}
 
         raise ValueError(f"unknown publish kind: {kind!r}")
 
@@ -286,13 +307,19 @@ def publish(
         }
         # User's poster receives JSON on stdin and the kind/target as argv.
         argv = shlex.split(cmd) + [kind, target_url]
-        proc = subprocess.run(
-            argv,
-            input=json.dumps(payload),
-            capture_output=True,
-            text=True,
-            timeout=120,
-        )
+        try:
+            proc = subprocess.run(
+                argv,
+                input=json.dumps(payload),
+                capture_output=True,
+                text=True,
+                timeout=120,
+            )
+        except (OSError, subprocess.TimeoutExpired) as e:
+            # The configured command doesn't exist, isn't executable, or hung
+            # past the timeout -- a config problem the user can fix, not a
+            # crash the agent should surface as one.
+            return {"mode": "error", "message": f"LINKEDIN_SKILLS_CUSTOM_POSTER failed to run: {e}"}
         return {
             "mode": "diy",
             "returncode": proc.returncode,

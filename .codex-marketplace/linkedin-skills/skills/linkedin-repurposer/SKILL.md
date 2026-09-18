@@ -20,25 +20,29 @@ Not for a blank-page draft (use `linkedin-post-writer`) and not for reviewing a 
 
 ## How it works
 
-**Voice profile first (all drafts).** If `../../references/voice-profile.md` has `filled: yes`, load it and match the user's voice fingerprint, hard rules, and CTA/link style throughout. If it is not filled, mention once that `linkedin-humanizer --mode profile` can learn their voice from a few posts, then proceed with the generic voice rules. If `../../references/story-bank.md` has `filled: yes`, load it too and take concrete details (numbers, dates, named projects) from there instead of asking mid-draft. Never invent a figure that is not in it; if the bank has nothing that fits, ask the user or offer `linkedin-interviewer`.
+**Voice profile first (all drafts).** If `../../references/voice-profile.md` has `filled: yes`, load it and match the user's voice fingerprint, hard rules, and CTA/link style throughout. If it is not filled, mention once **per conversation** that `linkedin-humanizer --mode profile` can learn their voice from a few posts, then proceed with the generic voice rules — don't repeat the offer on a later draft in the same conversation. If `../../references/story-bank.md` has `filled: yes`, load it too and take concrete details (numbers, dates, named projects) from there instead of asking mid-draft. Never invent a figure that is not in it; if the bank has nothing that fits, ask the user or offer `linkedin-interviewer`.
 
 1. **Take the source.** Any format: a tweet or thread, a video or script, a blog paragraph, a caption, a transcript, a bullet list, a link to read. Ask for the source and the goal (comments / reposts / likes / saves) if not given.
-2. **Extract the spine.** Strip the source platform's shell and pull out the one claim, story, or number worth keeping. Repurposing fails when it keeps the words instead of the point.
+2. **Extract the spine.** Strip the source platform's shell and pull out the one claim, story, or number worth keeping. Repurposing fails when it keeps the words instead of the point. **If there is no clear claim, story, or number to extract** (thin notes, a bare link, generic boilerplate), say so and ask the user for the missing specific — don't force a 900-1300 char expansion out of a source that doesn't have one.
 3. **Re-hook for LinkedIn.** The hook must land in the first 210 characters, before the "...see more" fold. The source's hook rarely survives; write a new first line using one of the 20 formulas in `../../references/hook-formulas.md`, picked by the goal.
 4. **Expand to LinkedIn length.** X compresses; LinkedIn breathes. Grow the spine into the 900 to 1300 char sweet spot: short paragraphs, double line breaks between ideas, one concrete detail per beat. A dense tweet becomes 4 to 6 short paragraphs, not a wall.
 5. **Add the LinkedIn shape.** Whitespace between ideas, a moment of real stakes or vulnerability (pure-insight posts do not land in 2026), and one clear closing question or CTA.
-6. **Fix links and artifacts.** Move any external link to the first comment (in-body links suppress reach). Strip off-platform artifacts: hashtag walls, "link in bio", "smash subscribe", X @-handles, "as I tweeted" throat-clearing. 0 to 2 hashtags at the end.
-7. **Humanizer pass.** Run the scrub: 2026 AI vocab by density, em dashes above the cap (about one per 100 words), stacked rule-of-three triads, generic openers and reveal bridges. Keep the user's real numbers and named entities from the source.
-8. **Approval card.** Show: source -> LinkedIn mapping (what became what), formula used, char count, suggested posting window (Tue/Wed/Thu 7:30 to 9:00 AM local), the link-in-first-comment note.
-9. **On approval.** Publish via `lib.publish(kind="post", draft_text=<approved>, target_url="https://www.linkedin.com/post/new/", platforms=[{"platform":"linkedin","platformId":<id>}], scheduled_time=<iso_or_None>)`. The wrapper handles Publora / manual / diy routing.
+6. **Fix links and artifacts.** Move any external link to the first comment (in-body links suppress reach). Strip off-platform artifacts: hashtag walls, "link in bio", "smash subscribe", X @-handles, "as I tweeted" throat-clearing. Hashtags: 0 by default (performs equal to or better than 5+, per `../../references/algorithm-heuristics.md`); use up to 2 only if they're genuinely niche (<50k posts) for a ~5% marginal lift, never generic high-volume tags.
+7. **Humanizer pass.** Run the scrub against the global voice rules (root `SKILL.md` §Voice rules) and the Density rule in `../../references/hook-formulas.md` (one contrast, one triple of sourced numbers, zero reveal bridges) — see Anti-patterns below for this skill's additions to those. Keep the user's real numbers and named entities from the source.
+8. **Approval card.** Show: source -> LinkedIn mapping (what became what), formula used, char count, suggested posting window (Tue/Wed/Thu 7:30 to 9:00 AM local), the link-in-first-comment note. **If the user asks for a change**, revise and re-present the card — never publish an edit that hasn't itself been approved.
+9. **On approval.** Publish via `lib.publish(kind="post", draft_text=<approved>, target_url="https://www.linkedin.com/post/new/", platforms=[{"platform":"linkedin","platformId":<id>}], scheduled_time=<iso_or_None>)`. The wrapper handles Publora / manual / diy routing. **If the result has `mode == "error"`** (expired token, sustained rate limit, Publora unreachable), don't treat the draft as lost: show the approved text and the target URL for the user to paste by hand, the same way manual mode already does.
 
 ## Native-fit rules (source -> LinkedIn)
 
-- **Tweet -> LinkedIn:** expand, do not paste. One tweet is a hook; grow the argument underneath it with whitespace.
-- **X thread -> LinkedIn:** unroll into one flowing post, not a numbered list. Keep the best line as the hook.
-- **YouTube video / script -> LinkedIn:** lead with the payoff, then the story of how you got there. Link the video in the first comment.
-- **Blog / newsletter -> LinkedIn:** pick the single most quotable claim as the hook, then the one story that proves it. Do not summarize the whole piece.
-- **Instagram / TikTok caption -> LinkedIn:** strip emoji density and hashtag blocks; add the professional stakes LinkedIn rewards.
+What changes by source type, on top of the general process in Steps 1-7 above:
+
+| Source | What's different here |
+|---|---|
+| Tweet | One tweet is a hook, not a post — grow the argument underneath it with whitespace, don't just paste it in |
+| X thread | Unroll into one flowing post, not a numbered list; keep the best line as the hook |
+| YouTube video / script | Lead with the payoff, then the story of how you got there; link the video in the first comment |
+| Blog / newsletter | Pick the single most quotable claim as the hook, then the one story that proves it — don't summarize the whole piece |
+| Instagram / TikTok caption | Strip emoji density and hashtag blocks; add the professional stakes LinkedIn rewards |
 
 ## Hard rules
 
@@ -53,15 +57,14 @@ Global voice rules: see root `SKILL.md` §Voice rules. Additional skill-specific
 
 ## Anti-patterns (skill will refuse)
 
+Repurposing-specific:
 - Copy-pasting the source with light edits (that is not repurposing).
 - Keeping the source platform's artifacts ("link in bio", "smash subscribe", hashtag walls).
 - Shipping a tweet-length post with no whitespace or expansion.
 - All-caps first line ("THIS CHANGED EVERYTHING").
-- Em dashes above the cap (more than about one per 100 words), or an em dash swapped for a period.
-- Rule-of-three lists without receipts.
-- "leverage", "fundamentally", "game-changer", "deep dive".
-- External links in the body.
 - Meta throat-clearing ("I originally posted this on...").
+
+Also refused, not restated here — see the source: anything the global voice rules already reject (root `SKILL.md` §Voice rules: em dashes above the ~1/100-word cap, banned AI vocab, plus "game-changer" and "deep dive" banned in this skill specifically) and anything `../../references/hook-formulas.md`'s Density rule already rejects (a rule-of-three without three sourced numbers, a reveal bridge). External links in the body: see Hard rules above.
 
 ## Resources
 

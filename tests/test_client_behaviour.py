@@ -174,6 +174,25 @@ class BackendDispatch(unittest.TestCase):
         self.assertTrue(message.strip(), "manual mode said nothing at all")
         self.assertIn("publora", message.lower(), "manual mode does not mention the write layer")
 
+    def test_a_publora_failure_returns_an_error_dict_instead_of_crashing(self):
+        """create_post used to be called with nothing catching its exception,
+        so an expired token or a rate limit that outlasted the client's own
+        retries crashed the turn right after the user approved the draft.
+        The caller needs something it can act on instead."""
+        from lib import backend_selector
+        from lib.publora_client import PubloraError
+
+        env = {"PUBLORA_API_KEY": "k", "LINKEDIN_PLATFORM_ID": "p"}
+        with mock.patch.dict("os.environ", env, clear=True), \
+             mock.patch("lib.publora_client.PubloraClient.create_post",
+                        side_effect=PubloraError("HTTP 401: token expired")):
+            result = backend_selector.publish(
+                "post", "a drafted post", "https://www.linkedin.com/post/new/",
+                platforms=["p"],
+            )
+        self.assertEqual(result.get("mode"), "error")
+        self.assertIn("token expired", result.get("message", ""))
+
 
 if __name__ == "__main__":
     unittest.main()
