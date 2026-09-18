@@ -9,6 +9,7 @@ The fastest way to kill an advocacy program is a 24-hour review queue. The faste
 - SLA commitments
 - What reviewers must NEVER edit
 - What reviewers MUST flag
+- Reviewer capacity check
 - Reviewer scorecard
 - Rolling 30-day audit
 - Bypass for incidents
@@ -33,6 +34,8 @@ Review the risk surface. Never review the voice surface. If you correct someone'
 - Polls, except when the answers would constitute roadmap or pricing signal
 
 **Estimated coverage:** 70-80% of advocacy content.
+
+**New-hire modifier:** for someone's first 4 weeks in the program, route their Tier-A-eligible content through a quick human check too — not because the content is higher-risk, but because their sense of what counts as Tier A hasn't been calibrated yet. This is the one seniority/tenure-based exception in an otherwise risk-based queue; it lapses automatically after 4 weeks of clean posts, at which point they route exactly like everyone else.
 
 ### Tier B — Voice-capture review (24h SLA, async)
 
@@ -88,6 +91,17 @@ If a reviewer does any of this, the author's next 3 posts will be sanitized corp
 - Specific competitor allegations (factual or not)
 - Any mention of a current employee by name without their consent
 - Anything that mentions an ongoing legal matter
+
+## Reviewer capacity check
+
+A sanity check for the SLAs above, so 24h is a tested commitment and not just an aspiration. Using a representative team at 1 reviewer per 10 advocates, 3 posts/week/person:
+
+- Total volume: 10 × 3 = **30 posts/week**
+- Tier A (70-80%): ~21-24 posts/week need no review
+- Tier B (15-25%): ~4.5-7.5 posts/week land on the Tier-B reviewer's desk — call it **5-8/week**
+- Tier C (<5%): under 2 posts/week, and those go to Legal/exec, not the Tier-B reviewer
+
+5-8 Tier-B reviews a week, each a few minutes (check the named entity, check the number, check timing — "almost never edit voice"), is comfortably inside a 24h SLA for one reviewer. Re-run this math with your team's actual numbers before promising the SLA: a team weighted toward Tier-B-heavy pillars (lots of named customers, lots of internal metrics) lands higher than this baseline, and a reviewer covering the upper end of "5-10 advocates" at a higher per-person cadence should redo the arithmetic rather than assume it still holds.
 
 ## Reviewer scorecard
 

@@ -1,6 +1,6 @@
 # Employee Advocacy — Four Operating Principles
 
-Source: https://co.actor/use-cases/marketing-teams + 2026 practitioner research
+The 8x/6-8x figures below trace to MSLGroup research on employee vs. brand-page content, echoed in LinkedIn's own marketing data — commonly cited, not independently reproduced at that exact magnitude by anyone outside that research. Everything else here is 2026 practitioner consensus, not a single cited study; treat the specific numbers as working targets to calibrate against your own program's data, not as guaranteed outcomes.
 
 ## 1. Scale authentically
 
@@ -14,11 +14,15 @@ Individuals compose in **their own voice**, not corporate language.
 
 ## 2. Maintain control
 
-Brand guidelines integrated into the workflow. Review step is **optional, not blocking**.
+Brand guidelines integrated into the workflow. Review is **risk-based, not role-based, and never blocks the voice.**
 
-- High-trust roles (VPs, Directors) bypass review entirely
-- Mid-trust roles (Managers, ICs) route to a 4-hour review window
-- New hires default to review, earn bypass after 4 weeks of clean posts
+Full 3-tier queue and SLAs: `governance-playbook.md` — that file is the source of truth for this principle. Summary: a post routes on what it *contains* (names a customer, cites an internal number, critiques a competitor, touches a regulated topic), not on who wrote it.
+
+- **Tier A — auto-publish:** no specific claim about customers, financials, roadmap, or competitors
+- **Tier B — 24h SLA, silent-approval after 24h:** names a customer, cites an internal number, critiques a named competitor, announces something unannounced
+- **Tier C — 48h SLA, explicit go/no-go:** regulated topics, forward-looking statements, active legal/PR matters
+
+**What seniority actually changes:** a VP or Director writing low-risk (Tier A) content all day never touches a queue — in practice that's most of what they post, so it *feels* like a bypass. But the same VP citing an internal revenue number lands in Tier B/C exactly like anyone else. New hires default to review on everything for the first 4 weeks regardless of tier, then follow the normal risk-based routing.
 
 **What the review catches:**
 - Factual errors about products / customers
@@ -37,7 +41,7 @@ Per-post time budget: **5 minutes**. Anything more and the program dies by week 
 
 - AI does heavy lifting: ideation, drafts, visual suggestions
 - Team member reviews, edits, approves, publishes
-- Approval workflow is async and <4h SLA
+- Approval workflow is async: 0 min for Tier A (most content), 24h/48h SLA for Tier B/C — see `governance-playbook.md`
 - Mobile posting is a first-class path (not desktop-only)
 
 **Math:** 5 min/post × 3 posts/week × 11 people = **2.75 hrs total team time per week** for full program output.
@@ -62,9 +66,9 @@ Track team reach, engagement, and pipeline impact. Without attribution, the prog
 
 - Launch → first team post: **14 days** target
 - Active team size: **8-11** members for meaningful output
-- Team output: **70+ posts/week** at 8 members (~10 per person per 4 weeks)
+- Team output: **23-40 posts/week** at 8 members (2.9-5 posts/person/week — see the worked example below; a number like "70+ posts/week" doesn't reconcile with the 5-minute time budget or with per-person cadence anywhere in this bundle, so don't use it)
 - Per-post time: **5 min** max
-- Team touchpoints: **40,000/month** at 11 people × 3 posts/week
+- Team touchpoints: **40,000/month** at 11 people × 3 posts/week × 300-impression floor
 - Per-post impression floor: **300** (anything lower, audit profile/hook)
 - Employee vs. brand page: **8x engagement**, **6-8x reach**
 
@@ -74,19 +78,19 @@ Track team reach, engagement, and pipeline impact. Without attribution, the prog
 team:
   VP Marketing (author: Alice):
     cadence: 2 posts/week
-    review: bypass
+    review: Tier A by default (most of her content); Tier B/C if a post meets the risk criteria, same as anyone
     pillars: [thought leadership, contrarian takes]
   Senior PMM (author: Bob):
     cadence: 3 posts/week
-    review: bypass
+    review: Tier A by default; Tier B/C if a post meets the risk criteria
     pillars: [product positioning, competitive teardowns]
   Marketing Manager (author: Carol):
     cadence: 3 posts/week
-    review: 4h SLA
+    review: Tier A by default; routes to Tier B (24h SLA) more often given her pillars name customers
     pillars: [campaign recaps, customer wins]
   Content Writer (author: Dan):
     cadence: 4 posts/week
-    review: 4h SLA
+    review: Tier A by default; Tier B/C if a post meets the risk criteria
     pillars: [industry analysis, frameworks]
   ... (5 more team members)
 
@@ -94,3 +98,16 @@ weekly_output: 23 posts total from 8 members
 weekly_time_cost: 1.9 hours
 target_team_reach: 15,000 impressions/week (growing toward 40,000/month)
 ```
+
+## Pillar × person matrix
+
+The "all-same pillars kills reach" anti-pattern (see `../SKILL.md`) needs a way to check it before cadence locks (Day 11 of the launch playbook), not after reach quietly drops. Lay out everyone's pillars in one table and scan for overlap:
+
+| Person | Pillar 1 (primary) | Pillar 2 |
+|---|---|---|
+| Alice (VP Marketing) | Thought leadership | Contrarian takes |
+| Bob (Senior PMM) | Product positioning | Competitive teardowns |
+| Carol (Marketing Manager) | Campaign recaps | Customer wins |
+| Dan (Content Writer) | Industry analysis | Frameworks |
+
+**Rule:** no two people share a Pillar 1. A shared Pillar 2 is fine if the angle differs (two people can both touch "customer wins" if one covers enterprise and the other SMB) — it's a full overlap across someone's *entire* pillar set that produces the redundancy the anti-pattern warns about. Catch it here, before launch, not from a reach report six weeks in.

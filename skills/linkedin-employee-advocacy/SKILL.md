@@ -5,7 +5,7 @@ description: "Stand up and run a LinkedIn employee advocacy program for a market
 
 # LinkedIn Employee Advocacy
 
-Stand up a marketing-team LinkedIn advocacy program that scales without killing authenticity. Employee posts get **8x more engagement** than brand-page posts — this skill operationalizes that advantage.
+Stand up a marketing-team LinkedIn advocacy program that scales without killing authenticity. Employee posts get **8x more engagement** than brand-page posts (MSLGroup research, echoed in LinkedIn's own marketing data — commonly cited, not independently reproduced at that exact magnitude) — this skill operationalizes that advantage.
 
 ## When to use
 
@@ -32,19 +32,11 @@ Stand up a marketing-team LinkedIn advocacy program that scales without killing 
 
 ## Four operating principles
 
-1. **Scale authentically.** Individuals compose in their own voice, not corporate language. Corporate-tone team posts underperform authentic voice 3x.
-2. **Maintain control.** Brand guidelines integrated into the workflow. Review step is **optional, not blocking** — high-trust roles bypass review entirely.
-3. **Remove friction.** Per-post time budget: **5 minutes**. Anything more and the program dies in week 3.
-4. **Prove ROI.** Track team reach, engagement, pipeline impact. Without attribution, the program gets cut at the first budget review.
+Scale authentically (individual voice, never corporate tone), maintain control (review the risk surface, never the voice — see Governance below), remove friction (5-minute per-post time budget), prove ROI (reach + engagement + pipeline, or the program gets cut at the first budget review). Full detail and the reasoning behind each: `references/advocacy-principles.md` — that file is the single source of truth for these; don't restate numbers here that could drift out of sync with it.
 
 ## Benchmarks
 
-- **Launch target:** team posting within **14 days**
-- **Active team size benchmark:** 8-11 members
-- **Output benchmark:** 70+ posts/week (at 8 members) or 3-5 posts/member/week
-- **Per-post time budget:** 5 minutes
-- **Team touchpoint math:** 11 people × 3 posts/week × 300 min impressions = **40,000 monthly touchpoints** baseline
-- **Employee vs. brand page:** 8x more engagement, 6-8x more reach on personal posts
+Launch target **14 days**, per-post time budget **5 minutes** — used directly in the playbook below. Every other number (team size, output range, touchpoint math, employee-vs-brand-page reach) lives in `references/advocacy-principles.md`.
 
 ## 14-day launch playbook
 
@@ -63,25 +55,23 @@ Stand up a marketing-team LinkedIn advocacy program that scales without killing 
 - Each team member gets 5-10 topic suggestions per week
 - They pick, not assigned
 
-### Days 11-14: Rhythm lock
-- Establish cadence: each team member publishes on fixed days/times
+### Days 11-14: Early cadence (ramp week 3-4 level)
+- This is still weeks 3-4 of the 60-day ramp in `references/team-cadence-matrix.md`: **1 post/week per seat**, fixed days/times, not steady-state — full cadence doesn't start until week 9+ (day 57+).
+- Before locking anyone's pillars, run the pillar × person matrix (`references/advocacy-principles.md`) — no two people should share a Pillar 1, or the "all-same pillars" anti-pattern below is already baked into week 1.
 - Set up KPI dashboard (see below)
 - Run first weekly review
 
 ## Governance: brand-safe without being blocked
 
-**What marketing reviews:**
-- Factual claims about the company / products / customers
-- Confidential info
-- Legal/compliance issues (finance, health, regulated industries)
+Full 3-tier queue, SLAs, and what reviewers must never touch: `references/governance-playbook.md`. Summary:
 
-**What marketing does NOT review:**
-- Personal voice, tone, style
-- Opinions the team member has about their own work
-- Formatting, hashtags, emoji choices
-- Topic selection (within pillars)
+- **Tier A — 0 min, auto-publish (~70-80% of content):** personal opinion, no specific claim about customers, financials, roadmap, or competitors.
+- **Tier B — 24h SLA, silent-approval after 24h (~15-25%):** names a customer, cites an internal number, critiques a named competitor, announces something unannounced.
+- **Tier C — 48h SLA, explicit go/no-go (<5%):** regulated topics, forward-looking statements, an active legal or PR matter.
 
-**The review SLA:** <4 business hours. Anything longer and the post is dead (posts go stale in the news cycle).
+**Tier is set by what the post contains, not who wrote it.** A VP citing an internal revenue number still routes to Tier B/C. Seniority only changes how much *low-risk* content a person is trusted to publish without ever hitting a queue — it is not an unconditional bypass on higher-risk content.
+
+**What marketing does NOT review, at any tier:** voice, tone, formatting, hashtags, emoji, or topic selection within pillars.
 
 ## ROI measurement
 
@@ -108,13 +98,13 @@ Stand up a marketing-team LinkedIn advocacy program that scales without killing 
 - **Copy-paste corporate posts across team accounts** — LinkedIn detects this, suppresses all of them
 - **Ghostwriting that erases the writer's voice** — reads as fake
 - **Mandatory posting cadence without individual calibration** — program dies in 6 weeks
-- **Approval loops >24h** — makes the program feel like work
+- **Tier-B approval loops >24h** — makes the program feel like work (Tier C's 48h is a deliberate exception for regulated/legal content, not a violation of this rule)
 - **Measuring only vanity metrics** — program gets cut without pipeline attribution
 - **All-same pillars across team** — redundancy kills team reach (360Brew penalizes clustering)
 
 ## Resources
 
-- `references/advocacy-principles.md` — the 4 operating principles with examples
+- `references/advocacy-principles.md` — the 4 operating principles with examples, benchmarks, and the pillar × person matrix
 - `references/team-cadence-matrix.md` — realistic cadence by role + seniority
 - `references/governance-playbook.md` — what to review, what not to, SLA
 
