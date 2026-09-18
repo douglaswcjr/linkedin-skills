@@ -1,11 +1,11 @@
 ---
 name: linkedin-profile-optimizer
-description: "Audit and rewrite a LinkedIn profile end-to-end for 2026: headline, About 7-step, Featured, banner, photo, Experience metrics, Skills, custom URL, recommendations. Triggers on \"review my profile\", \"rewrite my headline\", \"fix my About\", \"optimize banner\", \"profile audit\", \"LinkedIn bio\". Converts resume-style profiles to ones that convert 3-5x better. Not for writing feed content (use linkedin-post-writer)."
+description: "Audit and rewrite a LinkedIn profile end-to-end for 2026: headline, About 7-step, Featured, banner, photo, Experience metrics, Skills, custom URL, recommendations. Triggers on \"review my profile\", \"rewrite my headline\", \"fix my About\", \"optimize banner\", \"profile audit\", \"LinkedIn bio\". Turns a resume-style profile into one built to convert a visitor into a client, interview or follow. Not for writing feed content (use linkedin-post-writer)."
 ---
 
 # LinkedIn Profile Optimizer
 
-Audit the nine components of a LinkedIn profile (photo, banner, headline, About, Featured, Experience, Skills, custom URL, recommendations) against 2026 best practices, then rewrite each section that needs it. Optimized profiles get ~3.9x more views and convert visitors 3-5x better than default/resume-style profiles.
+Audit the nine components of a LinkedIn profile (photo, banner, headline, About, Featured, Experience, Skills, custom URL, recommendations) against 2026 best practices, then rewrite each section that needs it. A profile with these nine sections filled in and specific is a meaningfully better landing page for a visitor than a resume-style default — see "Key benchmarks" for which parts of that claim are sourced.
 
 ## When to use
 
@@ -31,18 +31,18 @@ A structured audit + rewrite in this shape:
 
 ## Steps
 
-1. **Intake.** Collect profile state + goal. Flag missing sections.
-2. **Score each of 9 sections** against the checklist (see references/).
-3. **Rewrite headline** using `[What You Do] | [Who You Help] [Achieve What Result]` — fit all 220 chars.
-4. **Rebuild About** with 7-step structure; verify first **265-275 chars** hook before "see more".
+1. **Intake.** Collect profile state + goal. Flag missing sections. **If the user hasn't stated a goal, ask directly before drafting Featured or any CTA** — Featured content and CTA wording are 100% goal-dependent (Step 5), so guessing produces a rewrite the user didn't ask for.
+2. **Score each of 9 sections** against the checklist (see references/). Before applying any character limit or cap from this skill (220-char headline, 265-275 char About cutoff, 50-skill cap, 1584x396 banner, endorsement-for-search-visibility), flag it as "confirm current LinkedIn specs" — these change with redesigns and aren't re-verified on a schedule by this skill.
+3. **Rewrite headline** using `[What You Do] | [Who You Help] [Achieve What Result]` — fit all 220 chars. Remember search/comment surfaces truncate to well under 220 chars, so the opening few words carry more weight than the full field.
+4. **Rebuild About** with 7-step structure; verify first **265-275 chars** hook before "see more". If the user has no quantifiable metric yet (early career, career change, internal role with no public KPI), use Formula B in `references/about-section-templates.md` instead of forcing a fabricated number.
 5. **Curate Featured** (3 strong items) matched to the goal:
    - **Clients:** lead magnet + case study with results + calendar link
    - **Job seeking:** portfolio + best work samples + top-performing post
-   - **Authority:** best content + media/podcast features + newsletter signup
-6. **Rewrite Experience bullets** as `action verb + specific metric`. Add 5+ skills per role. Pin top 3 skills.
+   - **Authority:** best content + media/podcast features + newsletter signup — if the user has a full-time employer and is building this in parallel, see the caution note in `references/featured-section-playbook.md`
+6. **Rewrite Experience bullets** as `action verb + specific metric`, or the no-metric fallback (`references/experience-skills-rules.md`) when there isn't one yet. Add 5+ skills per role. Pin top 3 skills.
 7. **Claim custom URL** (linkedin.com/in/firstnamelastname, not the `-123abc456` default).
 8. **Draft recommendation requests** with specifics ("about [project/skill]") — don't send LinkedIn's generic template.
-9. **Deliver before/after diff** + expected uplift (3.9x views, 3-5x conversion, 71% more likely to land interviews).
+9. **Deliver before/after diff** + expected uplift, framed honestly (see "Key benchmarks" below — some of these are real, sourced numbers and some are directional industry figures; don't present the second kind as verified data to a client).
 
 ## Nine-component scorecard
 
@@ -58,13 +58,13 @@ A structured audit + rewrite in this shape:
 | 8 | **Custom URL** | `linkedin.com/in/firstnamelastname` (not the default hash) |
 | 9 | **Recommendations** | At least 3 recent, specific (not generic), from diverse contexts |
 
-## Key benchmarks (from co.actor research)
+## Key benchmarks
 
-- Optimized About sections: **3.9x more views**
-- 5+ listed skills: **3x more connection requests**
-- Comprehensive profile: **71% more likely to land interviews**
-- Featured section content: **30% longer viewing time**
-- Personal founder profile vs company page: **315% more engagement, 270% more conversions**
+Two of these are real, sourced numbers; the rest are directional figures repeated across career-coaching content with no traceable original study. Don't present the second group as verified data to a client — say "commonly cited" or drop the percentage and keep the qualitative point.
+
+- Comprehensive profile linked from a resume: **71% more likely to land an interview** — ResumeGo study, covered by [Fortune](https://fortune.com/2019/03/28/job-applicants-with-a-comprehensive-linkedin-profile-71-more-likely-to-get-interviews-study-says/) and Forbes (2019). Measures having a LinkedIn profile at all vs. not, not a specific section like recommendations — don't re-attach this number to "3+ recommendations" the way this skill used to.
+- Recommendations present on a profile: **14x more profile views** — cited from a LinkedIn survey. (If a source claims 14x from having a *current photo* instead, that's a different, unrelated figure — don't merge the two.)
+- Directional only, no traceable source: optimized About sections get meaningfully more views; 5+ listed skills correlate with more connection requests; Featured content holds attention longer; a personal founder-style profile outperforms a company page. Treat all of these as "worth doing because it's good practice," not as a percentage to quote.
 
 ## Hard rules
 
@@ -73,7 +73,8 @@ Global voice rules: see root `SKILL.md` §Voice rules. Additional skill-specific
 - First person ("I help...") never third person ("Jane is a passionate...")
 - Never "passionate thought leader" / "driven professional" / "results-oriented" (profile-specific AI vocab)
 - Avoid wall-of-text. Use line breaks in About section
-- 80% of users leave Featured empty. Filling it is a free edge
+- Most users leave Featured empty or default. Filling it well is a free edge (see `references/featured-section-playbook.md` for how directional that percentage is)
+- **Write the deliverable in PT-BR by default.** This file and the reference files stay in English (they document formulas, not the output), the same split `linkedin-interviewer` uses for its PT-BR questions. Headline, About, Featured copy, Experience bullets and recommendation-request drafts are what the user actually publishes, so they're written in Brazilian Portuguese unless the user says their target audience isn't Brazilian.
 
 ## Reference files
 

@@ -23,6 +23,17 @@ Not: `"Responsible for X"` or `"Managed X"` — these are resume fossils that Li
 | Led product development | Shipped 12 features in 18 months; user retention +47% |
 | Handled client accounts | Retained 23 enterprise accounts worth $2.4M ARR; 94% renewal rate |
 | Worked on marketing | Wrote and shipped the "Pipeline Teardown" series; 18M impressions, 340 qualified leads |
+| Responsável pelo estoque da loja | Reorganizou o layout de estoque de 3 lojas; reduziu ruptura de produto em 30% no trimestre |
+| Ajudava no atendimento ao cliente | Atendeu em média 40 clientes/dia; taxa de satisfação de 96% nas pesquisas pós-atendimento |
+
+### No metric yet
+
+For a role or a career stage with no public number to cite (internal function, early career, career change), don't invent one. Use `[action verb] + [concrete scope] + [who relied on the result]` instead:
+
+| ❌ Before | ✅ After (no fabricated metric) |
+|---|---|
+| Ajudei na migração do sistema de dados | Liderei a migração do pipeline de dados de planilhas para SQL/Python, hoje usado semanalmente pelo time de operações |
+| Trabalhei no suporte técnico | Foi o ponto de escalação técnica da equipe para os 15 chamados mais complexos do mês, sem SLA de atraso |
 
 ### Action verbs (strong)
 
@@ -40,7 +51,7 @@ Every role should have at least one attached media item:
 - Case study PDFs
 - Video walkthroughs
 
-Roles with media get **2.1x more profile view duration** than text-only roles.
+Roles with media attached tend to hold profile-view attention longer than text-only roles — directional, no traceable source for a specific multiplier.
 
 ---
 
@@ -48,11 +59,11 @@ Roles with media get **2.1x more profile view duration** than text-only roles.
 
 ### Volume rules
 
-- **Up to 50 skills** listed (LinkedIn cap)
+- **Up to 50 skills** listed (LinkedIn cap — confirm current specs before applying; caps and the endorsement mechanic below have both changed before without notice)
 - **Pin top 3** at the top of the section
 - **Mirror skills** from target job descriptions if job-seeking
-- **≥1 endorsement per skill** to count in search (skills with 0 endorsements are invisible to recruiters)
-- **5+ skills listed:** **3x more connection requests**
+- **≥1 endorsement per skill** to count in search, as of the last time this was checked — verify LinkedIn Help still describes endorsements working this way before telling a client an unendorsed skill is invisible
+- **5+ skills listed:** correlates with more connection requests — directional, no traceable source for a specific multiplier
 
 ### 2026 high-value skills
 
@@ -91,7 +102,7 @@ Never: `linkedin.com/in/firstname-lastname-123abc456`
 
 ### Why it matters
 
-- **Memorable** — you can say "linkedin.com/in/sergebulaev" in conversation
+- **Memorable** — you can say "linkedin.com/in/janedoe" in conversation
 - **SEO** — Google ranks canonical URLs higher than hash-tail URLs
 - **Email signatures** — the short URL reads as intentional, not default
 
@@ -101,8 +112,8 @@ Never: `linkedin.com/in/firstname-lastname-123abc456`
 
 ### Why they matter
 
-- Candidates with ≥3 recommendations: **71% more likely to land interviews**
-- Authority profiles with 10+ recent recommendations: **4x trust signal** vs. profiles with 0
+- Recommendations present on a profile correlate with **14x more profile views** in LinkedIn's own survey data (see `../SKILL.md` "Key benchmarks" — the 71% interview-odds figure is real but measures having a profile at all, not recommendation count specifically; don't re-attach it to "3+ recommendations")
+- Authority profiles with several recent recommendations read as a stronger trust signal than profiles with none — directional, no traceable source for a specific multiplier
 
 ### How to request (the right way)
 
@@ -126,6 +137,23 @@ If you're open to it, specifically about:
 Happy to draft 2-3 bullets you can edit. Takes you 60 seconds, helps me a ton.
 
 Also happy to write yours first if that helps.
+```
+
+### Template for the ask (PT-BR)
+
+```
+Oi [Nome],
+
+Estou organizando meu LinkedIn e queria te pedir uma recomendação rápida, se topar.
+
+Se puder, especificamente sobre:
+- [o que vocês trabalharam juntos]
+- [resultado concreto]
+- [habilidade que ficou clara no trabalho]
+
+Posso rascunhar 2-3 frases pra você só ajustar. Leva uns 60 segundos e ajuda muito.
+
+Também topo escrever a sua primeiro, se ajudar.
 ```
 
 ### Rotation

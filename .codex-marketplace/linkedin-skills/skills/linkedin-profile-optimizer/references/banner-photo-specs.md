@@ -3,8 +3,9 @@
 ## Banner
 
 ### Dimensions
-- **1584 x 396 px** (4:1 ratio)
+- **1584 x 396 px** (4:1 ratio) — confirm current LinkedIn specs before applying; this changes with redesigns
 - Keep text/CTA in the **right 2/3** of the image — the profile photo covers the left 1/3 on desktop and overlaps even more on mobile
+- **Add alt text** describing the banner's content and any text it carries — LinkedIn supports it, screen-reader users get nothing from the image otherwise, and it costs one extra field
 
 ### Composition checklist
 - High contrast background (pure white, pure black, single brand color — not noisy photos)
@@ -31,7 +32,7 @@ LinkedIn crops banners aggressively on mobile. Before finalizing:
 ## Profile Photo
 
 ### Dimensions
-- **Minimum 400 x 400 px** (LinkedIn enforces)
+- **Minimum 400 x 400 px** (LinkedIn enforces) — confirm current LinkedIn specs before applying; this changes with redesigns
 - Square crop
 
 ### Composition checklist
@@ -57,6 +58,6 @@ LinkedIn crops banners aggressively on mobile. Before finalizing:
 ## Why this matters
 
 - Banner + photo = first visual impression; visitors decide whether to scroll in under 2 seconds
-- Profile with a real, current photo: **14x more profile views** than one without
-- High-quality banner: **+23% profile view duration** (correlation, from Co.Actor's 2026 data)
-- Banner space is essentially free advertising — 90% of users waste it on a default or stock image
+- A real, current photo makes a profile meaningfully more likely to get viewed than one without — the well-sourced "14x" figure in this bundle is about *recommendations*, not photos (see `../SKILL.md` "Key benchmarks"); don't reuse that number here
+- A high-quality banner correlates with longer profile view duration — directional, no traceable source for a specific percentage
+- Banner space is essentially free advertising — most people waste it on a default or stock image

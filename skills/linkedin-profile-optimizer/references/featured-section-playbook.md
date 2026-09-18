@@ -2,8 +2,8 @@
 
 ## Why it matters
 
-- **80% of users leave Featured empty** — filling it well is a free edge
-- Featured content drives **30% longer viewing time** on your profile
+- Most users leave Featured empty or default — filling it well is a free edge over most profiles you're competing with (directional, no traceable source for an exact percentage)
+- A filled Featured section holds a visitor's attention on the profile longer than one with none
 - It's the only section where YOU choose what's shown first — use it
 
 ## Quality over quantity
@@ -40,6 +40,11 @@ Example:
 - Featured 2: "How we took [Client X] from $40K MRR to $120K in 6 months" (case study)
 - Featured 3: "Book a free pipeline teardown" (calendar link)
 
+Example (PT-BR):
+- Featured 1: "O checklist que uso antes de aceitar um novo cliente" (PDF)
+- Featured 2: "Como reduzimos o custo de aquisição da [Cliente X] em 62% em 90 dias" (case study)
+- Featured 3: "Agende um diagnóstico gratuito de 20 minutos" (link de agenda)
+
 ### If your goal is job seeking
 
 1. **Portfolio / personal site** — your best work samples
@@ -62,6 +67,8 @@ Example:
 - Featured 2: "I was on The Operator Podcast — full episode here" (external)
 - Featured 3: "The Weekly Teardown — join 12K+ subscribers" (newsletter)
 
+**If the person has a full-time employer and is building this authority in parallel** (a CLT role plus a side consultancy or newsletter, for instance): keep Featured to content and platform-agnostic proof, not client work that could read as competing with the employer. Feature the article, the podcast appearance, the newsletter — skip a named case study if the client is anything the employer could plausibly see as their own business. When in doubt about a specific item, that's a question for the person, not something to guess at.
+
 ## Rotation schedule
 
 - **Quarterly audit:** replace any item older than 12 weeks OR that got less engagement than its successor
@@ -72,6 +79,7 @@ Example:
 
 - Featuring your current company's corporate blog post (better to feature your own content about it)
 - Generic "About our services" PDF (nobody downloads)
+- A generic services/capabilities catalogue with no named result or narrative — common in B2B service and industrial profiles, and just as dead as the corporate blog post above
 - A 2019 webinar recording (feels dated)
 - Random "selected writing" — be deliberate, not kitchen-sink
 - Leaving default Featured content from a connection's post

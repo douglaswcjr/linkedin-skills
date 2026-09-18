@@ -35,14 +35,46 @@ Outside work: two kids, one dog, bad chess player.
 
 Specialties: demand generation, signal-based marketing, AI content operations, LinkedIn strategy, B2B SaaS, RAG systems.
 
-Want the demand-gen audit I run for new clients? Comment "AUDIT" on my latest post or DM me.
+Want the demand-gen audit I run for new clients? DM me "AUDIT" and I'll send you the framework.
 ```
 
 **Why this works:**
 - First 265 chars ("Why do most B2B founders burn 40% of their pipeline on bad-fit leads? I help 1-10M ARR SaaS founders rebuild their inbound motion around signal, not volume.") earns the "see more" click
 - Concrete numbers (40%, 62%, 3.4x, 50, 5,000) — not "significant lift"
 - Specialties line packed with search keywords
-- CTA is specific and low-friction
+- CTA is specific and low-friction — a DM keyword, not a public comment-gate (see `../../../references/hook-formulas.md`'s Never-do list on comment-gate CTAs; the same platform penalty applies here)
+
+## Formula B — no metric yet
+
+Use this instead of the 7-step structure above when the person genuinely has no quantifiable win to lead with: early career, a career change (e.g. Civil Engineering → Data), or an internal role with no public KPI. Forcing a fabricated number here is worse than not having one — readers who know the field can tell.
+
+| Step | Purpose | Budget |
+|---|---|---|
+| 1. Hook | Open with the transition or the problem you're now solving, not a number you don't have | ~50 chars |
+| 2. Your role | What you actually do day to day, who you do it for | ~100 chars |
+| 3. Scope + tool | The concrete scope of what you touch and what you use to do it (system, stack, process) | ~150 chars |
+| 4. Qualitative outcome | What changed because of your work, described specifically even without a percentage ("the team stopped missing the Friday deploy window" beats "improved reliability") | ~200 chars |
+| 5. Indirect social proof | Who trusts you with this: a manager's delegation, a client's repeat ask, a course/certification completed, a project you were picked for | ~100 chars |
+| 6. Specialties | Keywords for search | ~150 chars |
+| 7. Call-to-action | What should they do next | ~100 chars |
+
+### Worked example (career change, PT-BR)
+
+```
+Passei 6 anos como engenheiro civil antes de migrar para dados — e uso essa base todo dia.
+
+Hoje trabalho com análise de dados para operações industriais, ajudando times a decidir com números em vez de intuição.
+
+Toco o pipeline de dados de ponta a ponta: coleta em campo, tratamento em SQL/Python, e o dashboard que o time de operações usa toda segunda-feira.
+
+Depois que o dashboard entrou no ar, parou de haver decisão de estoque tomada "no olho" — cada ajuste tem um número por trás agora.
+
+Fui convidado pelo gerente de operações para liderar essa migração sozinho, sem squad de dados formal na empresa até então.
+
+Especialidades: análise de dados, SQL, Python, dashboards operacionais, transição de carreira para dados.
+
+Quer trocar uma ideia sobre como estruturar isso na sua operação? Manda mensagem.
+```
 
 ## Anti-patterns
 
@@ -55,6 +87,8 @@ Want the demand-gen audit I run for new clients? Comment "AUDIT" on my latest po
 
 ## Benchmarks
 
-- Optimized About sections: **3.9x more views**
-- Keyword density matching target role: **3x more recruiter impressions**
-- Hook fitting in 265 chars: **2.4x "see more" click rate**
+No traceable source for an exact multiplier on any of these — they're directional, repeated across career-coaching content, not verified data. Say "tends to" to a client, not a percentage.
+
+- Optimized About sections get meaningfully more profile views than a blank or resume-pasted one
+- Keyword density matching the target role correlates with more recruiter impressions
+- A hook that actually resolves within the first 265 chars gets a better "see more" click rate than one that doesn't
